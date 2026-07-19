@@ -1,0 +1,336 @@
+What is Elasticity?
+
+Elasticity is the ability of AWS to automatically increase or decrease resources based on application demand.
+
+It helps:
+
+Handle changing workloads
+Maintain performance
+Reduce costs
+
+Elasticity Diagram
+
+                High Traffic
+                     │
+                     ▼
+              Add Resources
+             (Scale Out / Up)
+                     │
+Users ─────────► Application
+                     │
+             Remove Resources
+              (Scale In / Down)
+                     ▲
+                     │
+               Low Traffic
+
+
+How Elasticity Works
+
+Example
+
+Morning
+
+100 Users
+↓
+2 EC2 Instances
+
+
+Afternoon
+
+1000 Users
+↓
+8 EC2 Instances
+
+Night
+
+50 Users
+↓
+2 EC2 Instances
+
+AWS automatically adjusts the infrastructure.
+
+
+Benefits of Elasticity
+Automatic resource adjustment
+Better application performance
+Lower infrastructure cost
+Efficient resource utilization
+No manual intervention
+
+
+Scaling Types
+Scale Out (Horizontal Scaling)
+
+Adds more EC2 instances.
+
+
+2 EC2
+ ↓
+4 EC2
+ ↓
+8 EC2
+
+Used during high traffic.
+
+
+Scale In
+
+Removes unnecessary EC2 instances.
+
+8 EC2
+ ↓
+4 EC2
+ ↓
+2 EC2
+
+Used during low traffic.
+
+
+
+
+Scale Up (Vertical Scaling)
+
+Increase the size of an instance.
+
+Example
+
+t3.micro
+      ↓
+t3.medium
+      ↓
+t3.large
+
+Scale Down
+
+Decrease the instance size.
+
+
+Auto Scaling
+
+AWS Auto Scaling automatically launches or terminates EC2 instances based on workload.
+
+It ensures:
+
+High availability
+Better performance
+Cost optimization
+
+
+Auto Scaling Features
+Automatically adds EC2 instances
+Automatically removes EC2 instances
+Configurable minimum and maximum instances
+Uses CloudWatch metrics
+Maintains desired capacity
+
+
+Auto Scaling Workflow
+
+Users
+   │
+Traffic increases
+   │
+CloudWatch detects high CPU
+   │
+Auto Scaling Group (ASG)
+   │
+Launches new EC2 instances
+   │
+Load Balancer distributes traffic
+
+
+
+
+Auto Scaling Diagram
+
+              Launch Template
+          (Blueprint for EC2)
+                  │
+                  ▼
+         Auto Scaling Group (ASG)
+                  │
+      ┌───────────┴───────────┐
+      ▼                       ▼
+   EC2 Instance 1         EC2 Instance 2
+      │                       │
+      └───────────┬───────────┘
+                  ▼
+          Elastic Load Balancer
+                  │
+                  ▼
+                Users
+
+
+Desired Capacity
+
+The number of EC2 instances ASG tries to maintain.
+
+Example
+
+Minimum = 2
+
+Desired = 3
+
+Maximum = 6
+
+Normally
+
+3 EC2 Instances
+
+
+Scaling Example
+
+Initial
+
+Min = 2
+
+Desired = 2
+
+Max = 6
+
+Traffic increases
+
+CPU = 90%
+
+
+
+CloudWatch triggers ASG
+
+2 EC2
+
+↓
+
+3 EC2
+
+↓
+
+5 EC2
+
+
+Traffic decreases
+
+5 EC2
+
+↓
+
+3 EC2
+
+↓
+
+2 EC2
+
+
+
+Scaling Policies
+Target Tracking
+
+Automatically keeps a metric near a target value.
+
+Example
+
+Target CPU = 60%
+
+If CPU exceeds 60%, ASG adds instances.
+
+
+
+
+Step Scaling
+
+Adds or removes different numbers of instances based on threshold ranges.
+
+Example
+
+CPU > 70%
+Add 1 EC2
+
+CPU > 90%
+Add 3 EC2
+
+
+Simple Scaling
+
+Performs a single scaling action after a CloudWatch alarm.
+
+
+Scheduled Scaling
+
+Scales resources at predefined times.
+
+Example
+
+
+Every day
+
+9 AM
+
+Add 4 EC2
+
+10 PM
+
+Reduce to 2 EC2
+
+
+Health Checks
+
+ASG continuously checks EC2 health.
+
+If an instance becomes unhealthy:
+
+EC2 fails
+
+↓
+
+Terminate Instance
+
+↓
+
+Launch New Instance
+
+No manual intervention is required.
+
+
+Auto Scaling with Load Balancer
+
+Users
+
+↓
+
+Elastic Load Balancer
+
+↓
+
+EC2 1
+
+EC2 2
+
+EC2 3
+
+↓
+
+ASG launches new EC2
+
+↓
+
+Load Balancer automatically routes traffic
+
+
+Benefits of Auto Scaling
+High Availability
+Fault Tolerance
+Automatic Scaling
+Cost Optimization
+Better Performance
+Automatic Recovery
+Elastic Infrastructure
+
+
+Elasticity vs Scalability
+
+| Elasticity                       | Scalability                          |
+| -------------------------------- | ------------------------------------ |
+| Automatic resource adjustment    | Ability to handle increased workload |
+| Dynamic                          | Can be manual or automatic           |
+| Focuses on demand changes        | Focuses on growth                    |
+| Adds/removes resources as needed | Increases system capacity            |

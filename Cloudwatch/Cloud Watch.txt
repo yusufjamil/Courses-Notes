@@ -1,0 +1,277 @@
+What is Amazon CloudWatch?
+
+Amazon CloudWatch is a monitoring and observability service that collects metrics, logs, and events from AWS resources. It helps monitor resource health, trigger alarms, automate actions, and notify administrators.
+
+
+          Metrics
+             │
+             ▼
+      +----------------+
+      | CloudWatch     |
+      +----------------+
+             │
+     Threshold Breached
+             │
+             ▼
+      CloudWatch Alarm
+             │
+             ▼
+        SNS Topic
+             │
+             ▼
+     Email / SMS / Lambda
+
+
+Workflow
+EC2 publishes metrics (CPU, Network, Disk).
+CloudWatch collects those metrics.
+CloudWatch compares them with the configured threshold.
+If the threshold is exceeded, the alarm changes to ALARM state.
+CloudWatch sends a notification to an SNS Topic.
+SNS delivers notifications to subscribers.
+
+Step 1 – Create Alarm
+
+CloudWatch
+     ↓
+Alarms
+     ↓
+Create Alarm
+
+Select:
+
+Metrics
+Classic Metric Type
+Click Select Metric
+
+Step 2 – Select Metric
+
+Example:
+
+Namespace
+AWS/EC2
+
+Metric
+CPUUtilization
+
+Statistic
+Average
+
+Period
+5 Minutes
+
+Choose the EC2 instance you want to monitor.
+
+Example:
+
+Instance
+
+EC2-Production
+
+Click
+
+Select Metric
+
+Step 3 – Configure Conditions
+Threshold Type
+
+Choose
+
+Static
+
+Static means a fixed threshold value.
+
+CPU > 90%
+
+Configuration
+
+Whenever CPUUtilization is
+
+Greater Than
+
+Threshold
+
+90
+
+Meaning
+
+If CPU utilization exceeds 90%, the alarm will trigger.
+
+Threshold Options
+
+CloudWatch supports:
+
+| Option        | Meaning            |
+| ------------- | ------------------ |
+| Greater       | Metric > Threshold |
+| Greater/Equal | Metric ≥ Threshold |
+| Lower         | Metric < Threshold |
+| Lower/Equal   | Metric ≤ Threshold |
+
+Anomaly Detection
+
+Instead of a fixed threshold you can choose
+
+Anomaly Detection
+
+CloudWatch learns normal behavior and automatically detects unusual spikes.
+
+Example:
+
+Instead of:
+
+CPU > 90%
+
+CloudWatch detects abnormal CPU behavior automatically.
+
+Step 4 – Configure Actions
+
+Choose the alarm state that should trigger the notification.
+
+Options:
+
+In Alarm
+
+Recommended
+
+or
+
+OK
+
+or
+
+Insufficient Data
+
+SNS Notification
+
+Choose
+
+Select Existing SNS Topic
+
+or
+
+Create New Topic
+
+SNS sends notifications to:
+
+Email
+SMS
+Lambda
+HTTP Endpoint
+SQS
+
+Example:
+
+Topic Name
+
+ProductionAlerts
+
+Subscribers receive an email whenever the alarm is triggered.
+
+Alarm States
+OK
+
+Metric is within the threshold.
+
+Example
+
+CPU = 35%
+
+Status
+
+OK
+
+ALARM
+
+Metric crosses the configured threshold.
+
+Example
+
+CPU = 95%
+
+Status
+
+ALARM
+
+CloudWatch immediately sends an SNS notification.
+
+INSUFFICIENT DATA
+
+CloudWatch doesn't have enough metric data.
+
+Example
+
+New EC2 instance
+Instance stopped
+Metrics not yet received
+
+Example Flow
+
+Suppose:
+
+Metric
+
+CPUUtilization
+
+Threshold
+
+90%
+
+Period
+
+5 Minutes
+
+Current CPU
+
+95%
+
+Flow
+
+EC2
+     ↓
+CloudWatch receives metrics
+     ↓
+CPU > 90%
+     ↓
+Alarm changes to ALARM
+     ↓
+SNS Topic
+     ↓
+Email Notification
+
+Additional Alarm Actions
+
+Besides notifications, CloudWatch can automatically:
+
+Stop an EC2 instance
+Reboot an EC2 instance
+Terminate an EC2 instance
+Trigger an Auto Scaling policy
+Invoke a Lambda function
+Create Systems Manager OpsItems
+
+Real-Time Example
+
+Company website traffic suddenly increases.
+
+CPU
+
+95%
+
+CloudWatch detects:
+
+CPU > 90%
+
+Alarm becomes:
+
+ALARM
+
+CloudWatch:
+
+Sends email to DevOps team
+Triggers Auto Scaling
+Launches a new EC2 instance
+Load Balancer distributes traffic
+CPU returns to normal
+
+No manual intervention is required.

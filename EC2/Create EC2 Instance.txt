@@ -1,0 +1,1237 @@
+Learning Objectives
+
+After completing this hands-on lab, you will be able to:
+
+Launch your first EC2 instance.
+Select an Amazon Machine Image (AMI).
+Choose an instance type.
+Create or use an SSH Key Pair.
+Configure networking and security groups.
+Configure storage (EBS).
+Understand advanced instance settings.
+Launch an EC2 instance.
+Connect to the instance using EC2 Instance Connect.
+Execute Linux commands.
+Update packages using yum.
+Understand root user privileges.
+Terminate the instance safely.
+
+
+Lab Overview
+
+In this lab, you create an EC2 virtual machine running Amazon Linux 2023, connect to it using the browser-based EC2 Instance Connect, perform basic Linux administration, and then terminate the instance to avoid unnecessary charges.
+
+Step 1: Launch an EC2 Instance
+Navigate to:
+
+AWS Console
+      ↓
+EC2
+      ↓
+Launch Instance
+
+Provide the following details:
+
+Name
+My Web Server
+The instance name helps identify the server in the EC2 console.
+
+Step 2: Choose an Amazon Machine Image (AMI)
+Select:
+Amazon Linux 2023
+
+What is an AMI?
+
+An Amazon Machine Image (AMI) is a template containing:
+
+Operating System
+System libraries
+Boot configuration
+Pre-installed packages
+
+When an EC2 instance is launched, AWS creates the virtual machine using the selected AMI.
+
+Common AMIs
+Amazon Linux 2023
+Ubuntu
+Windows Server
+Red Hat Enterprise Linux
+SUSE Linux
+
+For beginners, Amazon Linux is recommended because it is optimized for AWS.
+
+Step 3: Select an Instance Type
+Choose:
+t3.micro
+
+Why t3.micro?
+Eligible for AWS Free Tier (where applicable).
+Suitable for learning and testing.
+General-purpose workload.
+Balanced CPU and memory.
+
+Instance Type Defines
+Number of vCPUs
+Memory (RAM)
+Network performance
+Cost
+
+Larger instance types provide more resources but cost more.
+
+Step 4: Configure Key Pair
+
+A Key Pair is used for secure SSH authentication.
+
+It consists of:
+
+Public Key (stored by AWS)
+Private Key (downloaded by the user)
+
+Purpose
+
+Instead of passwords, AWS uses key pairs to securely authenticate Linux instances.
+
+Keep the private key safe. If it is lost, it cannot be downloaded again.
+
+Note: When using EC2 Instance Connect, a key pair is optional because AWS provides browser-based SSH access.
+
+Step 5: Configure Network Settings
+
+Configure:
+
+VPC
+Subnet
+Auto-assign Public IP
+Auto-assign Public IP
+
+Enable this option so the instance receives a public IPv4 address.
+
+Without a public IP, you cannot connect over the internet using EC2 Instance Connect.
+
+Step 6: Create a Security Group
+
+A Security Group acts as a virtual firewall for the EC2 instance.
+
+Add the following inbound rules:
+
+| Type  | Port | Source    | Purpose            |
+| ----- | ---- | --------- | ------------------ |
+| SSH   | 22   | My IP     | Remote login       |
+| HTTP  | 80   | 0.0.0.0/0 | Web server access  |
+| HTTPS | 443  | 0.0.0.0/0 | Secure web traffic |
+
+Rule Explanations
+
+SSH (22):
+Allows secure remote administration.
+
+HTTP (80):
+Allows web traffic over HTTP.
+
+HTTPS (443):
+Allows encrypted web traffic.
+
+Important: Without an SSH rule, EC2 Instance Connect and SSH clients cannot connect to the instance.
+
+Step 7: Configure Storage (Amazon EBS)
+
+The default root volume is:
+
+Volume Type: gp3
+Size: 8 GiB
+
+What is Amazon EBS?
+
+Amazon Elastic Block Store (EBS) provides persistent block storage for EC2 instances.
+
+It stores:
+
+Operating system
+Installed software
+User data
+Application files
+Logs
+
+The root EBS volume acts like the hard drive of the virtual machine.
+
+Step 8: Advanced Details
+
+Several advanced options are available when launching an EC2 instance.
+
+Instance Auto Recovery
+
+Automatically recovers the instance if AWS detects underlying hardware failure.
+
+Useful for production environments.
+
+Shutdown Behaviour
+
+Determines what happens when the operating system executes a shutdown command.
+
+Options:
+
+Stop
+Terminate
+
+Recommended: Stop
+
+Stopping preserves the instance and attached EBS volume while avoiding compute charges.
+
+Stop–Hibernate Behaviour
+
+Allows supported instances to hibernate.
+
+Hibernate:
+
+Saves RAM contents to EBS.
+Restores the instance to its previous state when restarted.
+
+Termination Protection
+
+Termination protection prevents accidental deletion of an EC2 instance.
+
+If enabled:
+
+The instance cannot be terminated until termination protection is disabled.
+
+This is useful for production systems.
+
+Stop Protection
+
+Prevents accidental stopping of the instance.
+
+Useful for business-critical applications that should remain online.
+
+Detailed CloudWatch Monitoring
+
+AWS offers:
+
+Basic Monitoring (5-minute intervals)
+Detailed Monitoring (1-minute intervals)
+
+Detailed monitoring provides more granular performance metrics but may incur additional cost.
+
+User Data
+
+AWS allows execution of initialization scripts during the first boot of an instance.
+
+This feature is called User Data.
+
+#!/bin/bash
+yum update -y
+yum install httpd -y
+systemctl start httpd
+systemctl enable httpd
+
+The above script:
+
+Updates packages
+Installs Apache HTTP Server
+Starts the web server
+Enables it at boot
+
+User Data is commonly used to automate server provisioning.
+
+Step 9: Review and Launch
+
+The summary panel displays:
+
+Selected AMI
+Instance type
+Security group
+Storage
+Number of instances
+
+Click:
+Launch Instance
+
+AWS provisions the virtual machine within a few minutes.
+
+Step 10: Verify the Instance
+
+After launch, verify:
+
+Instance State: Running
+Status Checks: Passed
+Public IPv4 Address assigned
+Public DNS assigned
+
+Instance State : Running
+Public IP      : 54.xxx.xxx.xxx
+Private IP     : 172.xxx.xxx.xxx
+
+Step 11: Connect Using EC2 Instance Connect
+
+Navigate to:
+
+EC2
+   ↓
+Instances
+   ↓
+Select Instance
+   ↓
+Connect
+   ↓
+EC2 Instance Connect
+
+Connection Settings:
+
+Connection Type : Public IP
+
+Username : ec2-user
+
+Click:
+Connect
+
+The browser opens a Linux terminal.
+
+Amazon Linux Terminal
+
+After successful connection, you will see the Amazon Linux 2023 shell prompt.
+
+[ec2-user@ip-172-31-18-2 ~]$
+
+This indicates:
+
+Logged-in user: ec2-user
+Hostname: ip-172-31-18-2
+
+Updating Packages
+
+Try running:
+
+yum update
+
+Error:
+This command has to be run with superuser privileges.
+
+Why?
+
+The ec2-user account has standard user privileges and cannot perform system-wide package management without elevated permissions.
+
+Become Root User
+
+Run:
+
+sudo su
+
+Prompt changes to:
+
+[root@ip-172-31-18-2 ec2-user]#
+
+The # symbol indicates you are now the root user.
+
+Update the System
+
+Now run:
+
+yum update
+
+Dependencies resolved.
+
+Nothing to do.
+
+Complete!
+
+This means:
+
+Package metadata was refreshed.
+All installed packages are already up to date.
+
+Understanding sudo
+
+sudo = Super User DO
+
+It allows an authorized user to execute commands with root privileges.
+
+Examples:
+
+sudo yum update
+
+sudo reboot
+
+sudo systemctl restart httpd
+
+Linux Prompt Symbols
+
+$  → Normal User
+
+#  → Root User
+
+Always exercise caution when operating as the root user, as commands executed with root privileges can affect the entire system.
+
+Terminating the Instance
+
+To avoid charges:
+
+Navigate to:
+
+Instances
+     ↓
+Instance State
+     ↓
+Terminate Instance
+
+If Termination Protection is enabled:
+
+Open Actions → Instance Settings → Change Termination Protection.
+Disable termination protection.
+Save the change.
+Terminate the instance.
+
+Once terminated, the instance cannot be recovered.
+
+Best Practices
+Use Amazon Linux for AWS learning labs.
+Use t3.micro for small workloads and practice.
+Enable SSH in the Security Group if remote access is required.
+Restrict SSH access to My IP rather than 0.0.0.0/0 in production.
+Use EC2 Instance Connect for browser-based access when supported.
+Apply system updates regularly.
+Use sudo only when necessary.
+Enable Termination Protection for important production instances.
+Terminate unused instances to avoid unnecessary costs.
+
+Common Beginner Mistakes
+Forgetting to allow SSH (Port 22) in the Security Group.
+Not assigning a public IP, preventing internet access.
+Using the wrong username (for Amazon Linux, the default is ec2-user).
+Running administrative commands without sudo, leading to permission errors.
+Leaving instances running after completing a lab, resulting in additional charges.
+Deleting an instance without realizing that termination is irreversible.
+
+
+Interview Questions
+
+1. What is an Amazon Machine Image (AMI)?
+
+An AMI is a pre-configured template containing an operating system and optional software used to launch EC2 instances.
+
+2. Why is t3.micro commonly used for learning?
+
+It is a low-cost, general-purpose instance suitable for development, testing, and introductory workloads.
+
+3. What is Amazon EBS?
+
+Amazon Elastic Block Store (EBS) provides persistent block storage for EC2 instances, functioning like a virtual hard disk.
+
+4. What is the purpose of a Security Group?
+
+A Security Group is a virtual firewall that controls inbound and outbound traffic to an EC2 instance.
+
+5. Why did yum update fail initially?
+
+Because it was executed as the ec2-user, which does not have sufficient privileges. Administrative commands require sudo or the root user.
+
+6. What does sudo su do?
+
+It switches the current shell to the root user, granting administrative privileges.
+
+7. What is User Data?
+
+User Data is a startup script that runs automatically when an EC2 instance boots for the first time, enabling automated configuration.
+
+8. What is Termination Protection?
+
+A feature that prevents accidental deletion of an EC2 instance until the protection is explicitly disabled.
+
+
+
+Quick Revision
+
+Launch an EC2 instance by selecting an AMI, instance type, key pair, network, security group, and EBS storage.
+Configure a Security Group with SSH, HTTP, and HTTPS rules as appropriate.
+Connect using EC2 Instance Connect with the default ec2-user account for Amazon Linux.
+Use sudo or switch to the root user before executing administrative commands like yum update.
+User Data automates instance initialization during first boot.
+Enable Termination Protection for important systems and disable it before intentionally terminating an instance.
+Always stop or terminate unused instances to manage costs.
+
+Step 3: Instance Type
+
+Selected Instance:
+
+t3.micro
+
+Configuration
+
+| Property   | Value              |
+| ---------- | ------------------ |
+| Family     | t3                 |
+| vCPU       | 2                  |
+| Memory     | 1 GiB              |
+| Generation | Current Generation |
+| Pricing    | Pay-as-you-go      |
+
+Why use t3.micro?
+Low-cost general purpose instance
+Suitable for development and testing
+Good for learning AWS
+Free Tier eligible (for eligible AWS accounts)
+
+Other Instance Families
+
+| Family | Purpose             |
+| ------ | ------------------- |
+| t3     | Burstable workloads |
+| m7     | General purpose     |
+| c7     | Compute optimized   |
+| r7     | Memory optimized    |
+| i4     | Storage optimized   |
+| p5     | GPU/AI workloads    |
+
+Step 4: Key Pair (Login)
+
+A Key Pair provides secure authentication when connecting to Linux EC2 instances.
+
+Instead of passwords, AWS uses public/private key cryptography.
+
+Public Key
+      ↓
+Stored by AWS
+
+Private Key
+      ↓
+Downloaded by User
+
+Create a New Key Pair
+
+Click
+
+Create new key pair
+
+The Create key pair dialog opens.
+
+Key Pair Name
+
+Example:
+my-key
+
+Key Pair Type
+
+Two options are available.
+
+1. RSA
+Most widely used
+Compatible with almost every SSH client
+Recommended for beginners
+
+2. ED25519
+Modern cryptography
+Faster authentication
+Smaller key size
+More secure
+
+For learning purposes:
+
+RSA
+
+is perfectly acceptable.
+
+Private Key File Format
+
+AWS supports two formats.
+
+PEM
+
+Extension
+
+.pem
+
+Used with
+
+OpenSSH
+Linux
+macOS
+EC2 Instance Connect (optional)
+
+PPK
+
+Extension
+
+.ppk
+
+Used with
+
+PuTTY on Windows
+
+After clicking
+
+Create key pair
+
+AWS automatically downloads
+
+my-key.pem
+
+Store it securely.
+
+If lost, AWS cannot regenerate it.
+
+Step 5: Network Settings
+
+AWS automatically creates a Security Group.
+
+Current configuration:
+
+VPC
+
+Default VPC
+
+Subnet
+
+Default Subnet
+
+Auto Assign Public IP
+
+Enabled
+
+This allows internet access.
+
+Security Group
+
+A Security Group works like a firewall.
+
+It controls
+
+Incoming traffic
+
+Outgoing traffic
+
+Default Rule
+
+SSH
+
+Port 22
+
+Source
+
+Anywhere
+
+0.0.0.0/0
+
+This allows SSH access from anywhere.
+
+Better Practice
+
+Instead of
+
+0.0.0.0/0
+
+choose
+
+My IP
+
+This limits SSH access to your current machine.
+
+HTTP and HTTPS
+
+When creating a Web Server, enable
+
+HTTP
+
+Port 80
+
+Source
+
+0.0.0.0/0
+
+HTTPS
+
+Port 443
+
+Source
+
+0.0.0.0/0
+
+These rules allow browsers to access the website.
+
+Inbound Rules Example
+
+| Type  | Protocol | Port | Source    |
+| ----- | -------- | ---- | --------- |
+| SSH   | TCP      | 22   | My IP     |
+| HTTP  | TCP      | 80   | 0.0.0.0/0 |
+| HTTPS | TCP      | 443  | 0.0.0.0/0 |
+
+Why SSH Should Not Be Open to Everyone
+
+0.0.0.0/0
+
+means
+
+Every IP address on the Internet can attempt to connect.
+
+This is unsafe for production workloads.
+
+Instead use
+
+My IP
+
+or
+
+Specific Office IP
+
+Networking Information
+
+Once launched the instance receives
+
+Public IPv4
+
+Example
+
+54.xxx.xxx.xxx
+
+Used from the Internet.
+
+Private IPv4
+
+Example
+
+172.31.xx.xx
+
+Used only inside AWS.
+
+Public DNS
+
+Example
+
+ec2-54-145-56-73.compute-1.amazonaws.com
+
+DNS name that maps to the public IP.
+
+Private DNS
+
+Example
+
+ip-172-31-18-2.ec2.internal
+
+Used within the VPC.
+
+Availability Zone
+
+Example
+
+us-east-1c
+
+Meaning
+
+Region
+
+↓
+
+Availability Zone
+
+↓
+
+Data Center
+
+Example
+
+US East (N. Virginia)
+
+↓
+
+us-east-1c
+
+VPC
+
+Your instance belongs to a
+
+Virtual Private Cloud
+
+A VPC is your isolated network inside AWS.
+
+It contains
+
+Subnets
+Route Tables
+Internet Gateway
+Security Groups
+Network ACLs
+
+Public vs Private IP
+
+| Public IP                                               | Private IP                                |
+| ------------------------------------------------------- | ----------------------------------------- |
+| Accessible from Internet                                | Accessible only inside VPC                |
+| Changes when instance stops (unless Elastic IP is used) | Usually remains consistent within the VPC |
+| Used by users                                           | Used by AWS services                      |
+
+Instance Lifecycle
+
+Pending
+
+↓
+
+Running
+
+↓
+
+Stopping
+
+↓
+
+Stopped
+
+↓
+
+Starting
+
+↓
+
+Running
+
+↓
+
+Shutting Down
+
+↓
+
+Terminated
+
+Instance Termination
+
+When you click
+
+Terminate Instance
+
+AWS displays
+
+Shutting-down
+
+After a few seconds
+
+Terminated
+
+Finally
+
+No Instances
+
+The instance is permanently deleted.
+
+What Gets Deleted?
+
+| Resource                  | Deleted?                                |
+| ------------------------- | --------------------------------------- |
+| EC2 Instance              | ✅ Yes                                   |
+| Instance Memory           | ✅ Yes                                   |
+| Public IP                 | ✅ Released                              |
+| Root EBS Volume (default) | ✅ Deleted (unless configured to retain) |
+| Security Group            | ❌ No                                    |
+| Key Pair                  | ❌ No                                    |
+| VPC                       | ❌ No                                    |
+| IAM Role                  | ❌ No                                    |
+
+Security Group Warning
+
+When HTTP and HTTPS are configured with:
+
+0.0.0.0/0
+
+AWS displays a warning because every device on the Internet can access those ports.
+
+For public websites, this is expected.
+
+For SSH access, use My IP whenever possible.
+
+Best Practices
+
+Use t3.micro for learning and small workloads.
+Create a dedicated key pair and store the .pem file securely.
+Never share your private key.
+Restrict SSH (22) to My IP.
+Open HTTP (80) and HTTPS (443) only when hosting a web application.
+Understand the difference between Public IP and Private IP.
+Verify the instance reaches the Running state before connecting.
+Always terminate unused instances to avoid unnecessary charges.
+
+
+Interview Questions
+
+1. What is a Key Pair in AWS?
+
+A Key Pair consists of a public key stored by AWS and a private key downloaded by the user. It is used for secure authentication to Linux EC2 instances instead of passwords.
+
+2. What is the difference between RSA and ED25519?
+
+| RSA                     | ED25519                    |
+| ----------------------- | -------------------------- |
+| Older, widely supported | Newer, faster, more secure |
+| Larger key size         | Smaller key size           |
+| Broad compatibility     | Modern SSH implementations |
+
+
+3. What is the difference between .pem and .ppk files?
+.pem: Used with OpenSSH on Linux, macOS, and many SSH clients.
+.ppk: Used with PuTTY on Windows.
+
+4. Why should SSH not be open to 0.0.0.0/0?
+
+Opening SSH to 0.0.0.0/0 allows connection attempts from any IP address on the internet, increasing the attack surface. Restricting SSH to My IP or trusted networks is more secure.
+
+5. What is the purpose of a Security Group?
+
+A Security Group acts as a stateful virtual firewall for an EC2 instance, controlling allowed inbound and outbound network traffic.
+
+6. What is the difference between a Public IP and a Private IP?
+A Public IP is internet-routable and used for external access.
+A Private IP is only reachable within the VPC and is used for internal communication between AWS resources.
+
+Step 6: Configure Storage (EBS)
+
+Every EC2 instance requires storage for the operating system and applications.
+
+AWS automatically creates a Root Volume using Amazon Elastic Block Store (EBS).
+
+Current Configuration:
+
+| Setting           | Value         |
+| ----------------- | ------------- |
+| Number of Volumes | 1             |
+| Size              | 8 GiB         |
+| Volume Type       | gp3           |
+| IOPS              | 3000          |
+| Encryption        | Not Encrypted |
+
+Root Volume
+
+The Root Volume contains:
+
+Operating System
+Boot Loader
+Installed Software
+System Files
+
+Without the root volume, the EC2 instance cannot boot.
+
+Volume Types
+
+AWS supports multiple EBS volume types.
+
+| Volume Type | Use Case                      |
+| ----------- | ----------------------------- |
+| gp3         | General purpose (recommended) |
+| gp2         | Previous generation SSD       |
+| io1/io2     | High-performance databases    |
+| st1         | Throughput-optimized HDD      |
+| sc1         | Cold HDD                      |
+
+For most workloads:
+
+gp3
+
+is the recommended choice.
+
+Storage Size
+
+Default:
+
+8 GiB
+
+You can increase storage later if required.
+
+IOPS
+
+IOPS means:
+
+Input / Output Operations Per Second
+
+Higher IOPS provides faster disk performance.
+
+Example:
+
+Databases require high IOPS.
+Web servers usually do not.
+
+Add New Volume
+
+Click
+
+Add new volume
+
+to attach additional EBS volumes.
+
+Example uses:
+
+Database storage
+Log storage
+Backup storage
+Application data
+
+File Systems
+
+AWS also allows mounting managed storage services.
+
+Amazon EFS
+
+Elastic File System
+
+Features:
+
+Shared storage
+Multiple EC2 instances can access simultaneously
+Automatically scales
+
+Best for:
+
+Shared applications
+Web farms
+Containers
+
+Amazon FSx
+
+Managed file systems.
+
+Supports:
+
+Windows File Server
+Lustre
+NetApp ONTAP
+OpenZFS
+
+Used for enterprise workloads.
+
+Amazon S3 Files
+
+Allows integration with Amazon S3 for object storage.
+
+Suitable for:
+
+Backups
+Images
+Videos
+Documents
+
+Instance Summary Panel
+
+The Summary panel on the right displays:
+
+Number of instances
+Selected AMI
+Instance Type
+Security Group
+Estimated configuration
+
+This panel updates automatically as you change settings.
+
+EC2 Instance States
+
+An EC2 instance moves through several lifecycle states.
+
+Pending
+   ↓
+Running
+   ↓
+Stopping
+   ↓
+Stopped
+   ↓
+Starting
+   ↓
+Running
+   ↓
+Shutting-down
+   ↓
+Terminated
+
+Running
+
+Operating system is active.
+Billing for compute is running.
+Applications are available.
+
+Stopped
+Instance is powered off.
+Compute charges stop.
+EBS storage charges continue.
+
+You can restart the same instance later.
+
+Start Instance
+
+Navigate to:
+
+Instance State
+        ↓
+Start Instance
+
+AWS changes:
+
+Stopped
+      ↓
+Pending
+      ↓
+Running
+
+The same EBS volume remains attached.
+
+Stop Instance
+
+Navigate to:
+
+Instance State
+        ↓
+Stop Instance
+
+Effects:
+
+Operating system shuts down.
+RAM contents are lost.
+Public IPv4 address (if not Elastic IP) changes after restart.
+Root EBS volume remains attached.
+
+Terminate Instance
+
+Navigate to:
+
+Instance State
+        ↓
+Terminate Instance
+
+AWS displays a confirmation dialog.
+
+Important warning:
+
+Terminating an instance cannot be undone.
+
+Skip OS Shutdown
+
+The termination dialog contains:
+
+Skip OS Shutdown
+
+Normally leave this unchecked.
+
+AWS performs a graceful shutdown before deleting the instance.
+
+Enable only during emergencies when immediate termination is required.
+
+What Happens During Termination?
+
+AWS performs the following:
+
+Stops the operating system.
+Deletes the EC2 instance.
+Deletes the root EBS volume (default behavior).
+Releases the public IP.
+Changes state to:
+
+Shutting-down
+
+then
+
+Terminated
+
+Resources Deleted
+
+| Resource                  | Deleted |
+| ------------------------- | ------- |
+| EC2 Instance              | ✅       |
+| Root EBS Volume (default) | ✅       |
+| Instance Memory (RAM)     | ✅       |
+| Public IPv4 Address       | ✅       |
+| CPU Resources             | ✅       |
+
+
+Resources Not Deleted
+
+| Resource                             | Deleted |
+| ------------------------------------ | ------- |
+| Security Group                       | ❌       |
+| Key Pair                             | ❌       |
+| VPC                                  | ❌       |
+| IAM Roles                            | ❌       |
+| Snapshots                            | ❌       |
+| Elastic IP (if allocated separately) | ❌       |
+
+
+Termination Protection
+
+AWS allows you to prevent accidental deletion.
+
+Navigation:
+
+Actions
+    ↓
+Instance Settings
+    ↓
+Change Termination Protection
+
+When enabled:
+
+The instance cannot be terminated accidentally.
+AWS blocks the delete operation until protection is disabled.
+
+Why Use Termination Protection?
+
+Useful for:
+
+Production servers
+Critical databases
+Enterprise applications
+Long-running workloads
+
+Termination Protection Error
+
+If AWS displays an error similar to:
+
+Failed to enable termination protection...
+
+Possible reasons include:
+
+The instance is already terminating.
+The instance is in an invalid lifecycle state.
+The operation was attempted after termination had begun.
+
+Termination protection can only be changed when the instance is in a supported state (such as Running or Stopped), not while it is already being deleted.
+
+
+EC2 Billing Behavior
+
+| Instance State | Compute Charges | Storage Charges                      |
+| -------------- | --------------- | ------------------------------------ |
+| Running        | ✅ Yes           | ✅ Yes                                |
+| Stopped        | ❌ No            | ✅ Yes                                |
+| Terminated     | ❌ No            | ❌ No (if root EBS volume is deleted) |
+
+Best Practices
+
+Keep the default gp3 EBS volume unless your workload requires a different type.
+Increase storage only when necessary.
+Use Stop instead of Terminate if you may need the instance again.
+Enable Termination Protection for important production instances.
+Leave Skip OS Shutdown unchecked except during emergency situations.
+Delete unused instances to avoid unnecessary storage and resource charges.
+
+Interview Questions
+
+1. What is Amazon EBS?
+
+Amazon Elastic Block Store (EBS) provides persistent block storage for EC2 instances. Data remains available even after the instance is stopped.
+
+2. What is the difference between Stop and Terminate?
+
+| Stop                      | Terminate                             |
+| ------------------------- | ------------------------------------- |
+| Instance can be restarted | Instance is permanently deleted       |
+| Root EBS volume remains   | Root EBS volume is deleted by default |
+| Compute charges stop      | All compute resources are removed     |
+
+3. What is gp3?
+
+gp3 is AWS's recommended general-purpose SSD EBS volume type, offering consistent performance, configurable IOPS, and lower cost than the older gp2 for many workloads.
+
+4. What is Termination Protection?
+
+Termination Protection is an EC2 feature that prevents accidental deletion of an instance. It must be disabled before the instance can be terminated.
+
+5. Does stopping an EC2 instance delete data?
+
+No. Stopping an instance does not delete the attached EBS volumes. The operating system and data remain intact unless the instance is terminated and the volume is configured to be deleted.
+
+6. What happens to the public IP when an instance is stopped?
+
+If the instance uses an automatically assigned public IPv4 address, it is typically released when the instance stops and a new public IP is assigned when it starts again. An Elastic IP remains associated until you release or reassign it.
+
+
+

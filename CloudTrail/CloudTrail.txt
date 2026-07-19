@@ -1,0 +1,297 @@
+What is AWS CloudTrail?
+
+AWS CloudTrail is a service that records and logs all API activity performed in your AWS account.
+
+It answers:
+
+Who performed the action?
+What action was performed?
+When was it performed?
+From where was it performed?
+
+CloudTrail is mainly used for:
+
+Auditing
+Compliance
+Security
+Troubleshooting
+Tracking configuration changes
+
+CloudTrail Architecture
+
+           User / IAM User / Role
+                    │
+          Performs AWS API Call
+                    │
+                    ▼
+              AWS CloudTrail
+                    │
+          Records Every API Event
+                    │
+                    ▼
+              S3 Bucket (Logs)
+                    │
+             Search / Audit
+
+
+How CloudTrail Works
+
+Example
+
+User logs into AWS
+        │
+Creates EC2
+        │
+Deletes S3 Bucket
+        │
+Stops RDS
+        │
+Changes Security Group
+        │
+CloudTrail records all actions
+        │
+Stores logs in S3
+
+
+What Does CloudTrail Record?
+
+CloudTrail records
+
+EC2 creation
+EC2 termination
+IAM user creation
+IAM policy changes
+Security Group updates
+S3 bucket deletion
+RDS creation
+Lambda execution (management events)
+VPC modifications
+
+Basically, almost every AWS API call.
+
+Example Event
+
+User : John
+
+Action : Create EC2
+
+Time : 10:35 AM
+
+Region : us-east-1
+
+IP Address : 192.168.xx.xx
+
+Status : Success
+
+CloudTrail stores all these details.
+
+
+CloudTrail Event Components
+
+Each event contains
+
+Username
+Event Time
+Event Name
+AWS Region
+Source IP
+Resource
+Request Parameters
+Response
+Success/Failure
+
+
+CloudTrail Storage
+
+CloudTrail stores logs in
+
+Amazon S3
+
+Benefits
+
+Durable
+Secure
+Low cost
+Long-term storage
+
+CloudTrail Use Cases
+Audit user activity
+Security investigations
+Compliance
+Track configuration changes
+Find accidental deletions
+Troubleshoot failures
+
+Example
+
+Suppose someone deleted an EC2 instance.
+
+Without CloudTrail
+
+Don't know
+
+Who deleted?
+
+When?
+
+From where?
+
+With CloudTrail
+
+IAM User : Admin
+
+Action : Terminate EC2
+
+Time : 2:45 PM
+
+IP Address : xx.xx.xx.xx
+
+
+
+CloudTrail vs CloudWatch
+
+| CloudTrail            | CloudWatch             |
+| --------------------- | ---------------------- |
+| Logs API activity     | Monitors AWS resources |
+| Who did what          | CPU, Memory, Metrics   |
+| Audit                 | Monitoring             |
+| Configuration changes | Performance monitoring |
+| Security              | Alarms                 |
+
+
+CloudTrail Event Types
+
+1. Management Events
+
+Records management operations.
+
+Examples
+
+Create EC2
+Delete IAM User
+Create RDS
+Modify VPC
+
+
+2. Data Events
+
+Records resource-level operations.
+
+Examples
+
+Read S3 Object
+Delete S3 Object
+Lambda Function Invoke
+
+3. Insights Events
+
+Detects unusual API activity.
+
+Example
+
+Normally
+
+10 API Calls
+
+Suddenly
+
+500 API Calls
+
+CloudTrail Insights detects this anomaly.
+
+
+Multi-Account Logging
+
+CloudTrail can collect logs from multiple AWS accounts into a central S3 bucket.
+
+Example
+
+Primary AWS Account
+        │
+        ├── EC2
+        ├── Lambda
+        ├── RDS
+        │
+        ▼
+CloudTrail
+        │
+        ▼
+Audit AWS Account
+        │
+        ▼
+Central S3 Bucket
+
+This is useful for organizations managing multiple AWS accounts.
+
+
+CloudTrail Workflow
+
+
+User
+   │
+Performs Action
+   │
+AWS API
+   │
+CloudTrail
+   │
+S3 Bucket
+   │
+Audit
+
+
+CloudTrail Features
+Records AWS API calls
+Stores logs in S3
+Supports multiple Regions
+Helps auditing
+Security monitoring
+Compliance
+Investigation
+Integration with CloudWatch for alerts
+
+
+
+CloudTrail + CloudWatch
+
+Together they work as follows:
+
+CloudTrail
+     │
+Creates Event Logs
+     │
+CloudWatch
+     │
+Creates Alarm
+     │
+SNS
+     │
+Email Notification
+
+
+Example:
+
+Someone deletes an S3 bucket.
+
+CloudTrail records the event.
+CloudWatch detects the log pattern.
+CloudWatch Alarm triggers.
+SNS sends an email notification.
+
+
+CloudTrail vs AWS Config
+
+| CloudTrail          | AWS Config                    |
+| ------------------- | ----------------------------- |
+| Tracks API activity | Tracks resource configuration |
+| Who changed         | What changed                  |
+| Event history       | Configuration history         |
+
+Advantages
+Complete audit history
+Security analysis
+Compliance reporting
+Troubleshooting
+Multi-account support
+Easy integration with CloudWatch
+Centralized logging

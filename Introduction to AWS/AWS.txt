@@ -1,0 +1,97 @@
+AWS Introduction Notes (from the uploaded clip)
+1. Traditional Infrastructure
+
+In a traditional on-premises environment, companies purchase servers based on their expected peak usage.
+
+Example
+Normal traffic: 100 users
+Peak traffic: 1000 users
+
+To handle the peak, the company buys hardware capable of serving 1000 users.
+
+Problem
+
+For most of the day:
+
+CPU remains idle
+Memory remains unused
+Storage is underutilized
+
+This wastes money.
+
+2. Overprovisioning
+
+Definition
+
+Overprovisioning means purchasing more computing resources than are normally required to prepare for future demand or traffic spikes.
+
+Disadvantages
+Expensive hardware
+Wasted electricity
+Higher maintenance costs
+Resources stay idle most of the time
+
+3. AWS Cloud Solution
+
+AWS solves this problem using cloud computing.
+
+Instead of buying servers:
+
+Rent resources on demand.
+Scale resources up when traffic increases.
+Scale resources down when traffic decreases.
+
+4. Pay-As-You-Go Model
+
+The instructor mentions:
+
+"With AWS you simply pay for what you need."
+
+Meaning
+
+You pay only for the resources you actually consume.
+
+Examples:
+
+EC2 running for 10 hours → Pay for 10 hours.
+100 GB stored in S3 → Pay for 100 GB.
+Lambda function executes 5000 times → Pay only for those executions.
+
+5. Benefits
+Lower upfront investment
+No need to purchase physical servers
+Elastic scaling
+Reduced operational costs
+Faster deployment
+Better utilization of infrastructure
+
+6. Key Interview Questions
+
+What is overprovisioning?
+
+Purchasing more infrastructure than is currently needed to prepare for future demand, resulting in idle resources and unnecessary cost.
+
+How does AWS solve overprovisioning?
+
+AWS allows customers to provision resources on demand and pay only for what they use, eliminating the need to maintain excess hardware.
+
+What is the Pay-As-You-Go pricing model?
+
+Customers are billed only for the AWS services and resources they actually consume instead of paying upfront for maximum capacity.
+
+What is elasticity?
+
+The ability to automatically increase or decrease resources based on workload.
+
+What is scalability?
+
+The ability to increase computing resources to handle increased workload.
+
+Quick Revision
+Traditional infrastructure = Buy servers first.
+Overprovisioning = Buy more than needed.
+Underutilization = Idle resources.
+AWS = Rent resources.
+Pay only for usage.
+Scale up during peak demand.
+Scale down when demand decreases.

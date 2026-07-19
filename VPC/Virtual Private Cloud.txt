@@ -1,0 +1,202 @@
+What is Amazon VPC?
+
+Amazon Virtual Private Cloud (Amazon VPC) is a service that allows you to create a private, isolated virtual network within AWS where you can securely launch and manage AWS resources such as EC2 instances, RDS databases, Load Balancers, and Lambda functions.
+
+Think of it as your own private data center inside the AWS Cloud.
+
+A VPC is essentially a logical data center.
+A VPC can span multiple Availability Zones (AZs) within a region.
+It helps separate public and private resources.
+You can connect your on-premises data center to a VPC using a VPN.
+AWS Direct Connect provides a dedicated private connection between your data center and AWS.
+
+
+
+                         AWS REGION
++---------------------------------------------------------------------+
+
+                    VPC (10.1.0.0/16)
+
++---------------------------------------------------------------------+
+
+ Public Subnet (10.1.1.0/24)
+
++-------------------------+
+| Web Server EC2          |
+| Public IP               |
++-------------------------+
+          │
+          ▼
+    Network ACL
+          │
+          ▼
+     Route Table
+          │
+          ▼
+      VPC Router
+          │
+          ▼
+   Internet Gateway
+          │
+          ▼
+       Internet
+
+
+-------------------------------------------------------------
+
+ Private Subnet (10.1.101.0/24)
+
++-------------------------+
+| DB Server EC2           |
+| Private IP Only         |
++-------------------------+
+          │
+          ▼
+    Network ACL
+          │
+          ▼
+     Route Table
+          │
+          ▼
+      VPC Router
+
+(No Internet Gateway Route)
+
++---------------------------------------------------------------------+
+
+
+
+1. AWS Region
+
+A Region is a geographical location where AWS has multiple data centers.
+
+Examples:
+
+us-east-1 (N. Virginia)
+us-west-2 (Oregon)
+ap-south-1 (Mumbai)
+eu-west-1 (Ireland)
+
+Each region contains multiple Availability Zones (AZs).
+
+AWS Region
+|
+|-- Availability Zone A
+|
+|-- Availability Zone B
+|
+|-- Availability Zone C
+
+
+2. VPC (Virtual Private Cloud)
+
+CIDR Block:
+
+10.1.0.0/16
+
+
+A VPC is your own isolated private network inside AWS.
+
+Think of it like a company's private office network.
+
+It contains:
+
+Public Subnets
+Private Subnets
+Route Tables
+Security Groups
+Network ACLs
+Internet Gateway
+NAT Gateway
+EC2 Instances
+
+3. Public Subnet
+
+Example:
+
+10.1.1.0/24
+
+Contains resources that users access from the Internet.
+
+Examples:
+
+Web Server
+Bastion Host
+Load Balancer
+NAT Gateway
+
+Public Subnet characteristics:
+
+Has Public IP
+Has Internet Gateway Route
+Can communicate with Internet
+
+Example:
+
+Internet
+
+↓
+
+Internet Gateway
+
+↓
+
+Public Subnet
+
+↓
+
+Web Server
+
+
+4. Web Server EC2 Instance
+
+Located inside the Public Subnet.
+
+Example:
+
+Apache
+
+Nginx
+
+Tomcat
+
+NodeJS
+
+IIS
+
+Users open a website like:
+
+www.amazon.com
+
+Traffic reaches:
+
+Internet
+
+↓
+
+Internet Gateway
+
+↓
+
+Web Server
+
+
+5. Private Subnet
+
+Stores sensitive backend resources.
+
+Examples:
+
+Database
+Internal APIs
+Backend Application
+Redis
+Kafka
+
+Characteristics:
+
+✔ No Public IP
+
+✔ Not Accessible from Internet
+
+✔ More Secure

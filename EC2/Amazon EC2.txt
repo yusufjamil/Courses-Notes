@@ -1,0 +1,329 @@
+What is Amazon EC2?
+
+Amazon EC2 (Elastic Compute Cloud) is an AWS service that allows you to create and run virtual servers (called EC2 instances) in the AWS Cloud.
+
+Instead of purchasing physical servers, AWS provides virtual machines that can be created, resized, stopped, started, and terminated within minutes.
+
+Think of an EC2 instance as a computer running inside AWS.
+
+Amazon EC2 is a web service that provides resizable compute capacity in the AWS Cloud. It enables users to launch virtual machines on demand while paying only for the resources they consume.
+
+
+Why Do We Need EC2?
+
+Before cloud computing, organizations had to:
+
+Purchase physical servers.
+Install operating systems manually.
+Maintain hardware.
+Upgrade CPU, RAM, and storage.
+Replace failed hardware.
+
+This process was expensive and time-consuming.
+
+Amazon EC2 eliminates the need to own physical hardware by allowing users to rent virtual servers from AWS.
+
+
+EC2 is an Unmanaged Service
+
+EC2 is considered an unmanaged service because AWS provides the infrastructure, but the customer is responsible for managing the virtual machine.
+
+AWS manages:
+
+Physical servers
+Data centres
+Networking infrastructure
+Cooling systems
+Power supply
+Physical security
+Hypervisors
+
+
+The customer manages:
+
+Operating System installation and configuration
+Security patches
+Software installation
+Application deployment
+Antivirus (if required)
+Firewall configuration inside the OS
+User accounts
+Updates and maintenance
+
+This follows the Shared Responsibility Model.
+
+Infrastructure as a Service (IaaS)
+
+Amazon EC2 is an example of Infrastructure as a Service (IaaS).
+
+In IaaS, AWS provides the infrastructure, while the customer controls the operating system and software stack.
+
+Components Provided by AWS
+Virtual machines
+CPU
+Memory (RAM)
+Storage
+Networking
+Data centre infrastructure
+
+Components Managed by the Customer
+Operating system
+Applications
+Runtime environment
+Data
+Configuration
+Security within the operating system
+
+
+Real-World Example
+
+A company needs a Linux server to host a Java application.
+
+Instead of buying a physical server:
+
+Launch an EC2 instance.
+Select an Amazon Linux AMI.
+Install Java.
+Deploy the application.
+Configure security settings.
+
+The server is now running in the AWS Cloud without purchasing hardware.
+
+EC2 Instance
+
+An EC2 Instance is a virtual machine running inside AWS.
+
+It behaves like a physical computer.
+
+It has:
+
+CPU
+RAM
+Storage
+Operating System
+Network interface
+IP address
+
+You can:
+
+Start it
+Stop it
+Reboot it
+Resize it
+Terminate it
+
+Amazon Machine Image (AMI)
+
+Before launching an EC2 instance, you must choose an Amazon Machine Image (AMI).
+
+An AMI is a pre-configured template containing:
+
+Operating System
+System libraries
+Required software
+Boot configuration
+
+Think of an AMI as the blueprint used to create EC2 instances.
+
+Examples
+Amazon Linux
+Ubuntu
+Red Hat Enterprise Linux
+Windows Server
+
+Choosing an AMI determines the initial operating system and software installed on the instance.
+
+Instance Types
+
+EC2 provides different Instance Types to suit different workloads.
+
+An instance type defines the hardware configuration of the virtual machine, including:
+
+CPU (vCPUs)
+Memory (RAM)
+Network performance
+Storage performance
+
+Common Families
+General Purpose (T, M) – Balanced CPU and memory.
+Compute Optimized (C) – High CPU performance.
+Memory Optimized (R, X) – Large memory workloads.
+Storage Optimized (I, D) – High-speed local storage.
+Accelerated Computing (P, G, Inf) – GPUs and machine learning.
+
+Example
+t3.micro – Suitable for learning, testing, and small applications.
+m5.large – Balanced performance for production workloads.
+c6i.large – CPU-intensive applications.
+
+Larger instance types cost more because they provide more resources.
+
+EC2 Storage – Amazon EBS
+
+An EC2 instance requires storage to hold:
+
+Operating System
+Installed software
+Application files
+Logs
+User data
+
+AWS provides Amazon Elastic Block Store (EBS) for this purpose.
+
+An EBS Volume is a virtual hard disk attached to an EC2 instance.
+
+Characteristics
+Persistent storage.
+Can be detached and reattached (within supported scenarios).
+Stores the operating system and application data.
+Data persists even if the instance is stopped (depending on volume configuration).
+
+Think of EBS as the hard drive of your virtual machine.
+
+Instance Types and Pricing
+
+AWS charges based on the selected instance type.
+
+Factors affecting price include:
+
+Number of vCPUs.
+Amount of RAM.
+Network performance.
+Storage performance.
+Region.
+Operating system.
+Pricing model (On-Demand, Reserved, Spot, etc.).
+
+Choosing the right instance type helps optimize both performance and cost.
+
+Availability Zones
+
+Every EC2 instance runs in one specific Availability Zone (AZ).
+
+For example:
+
+ap-south-1a
+ap-south-1b
+ap-south-1c
+
+Once an instance is launched, it remains in that Availability Zone.
+
+You cannot move a running EC2 instance directly to another Availability Zone.
+
+To use another AZ, you typically create an Amazon Machine Image (AMI) or snapshot and launch a new instance in the desired AZ.
+
+Hypervisor
+
+A Hypervisor is software that enables multiple virtual machines to run on a single physical server.
+
+AWS data centres contain powerful physical servers.
+
+The Hypervisor divides the physical resources and allocates them to different customers securely.
+
+
+                 Physical Host
+        +----------------------------+
+        | CPU | RAM | Network | Disk |
+        +----------------------------+
+                  Hypervisor
+        +------------+--------------+
+        |                           |
++------------------+     +------------------+
+| Customer 1 VM    |     | Customer 2 VM    |
+| Operating System |     | Operating System |
+| Applications     |     | Applications     |
++------------------+     +------------------+
+
+Each virtual machine is isolated from the others while sharing the underlying hardware.
+
+Advantages of Virtualization
+Better hardware utilization.
+Reduced infrastructure cost.
+Fast provisioning.
+Isolation between customers.
+Scalability.
+Efficient resource sharing.
+
+Virtualization is the foundation of Amazon EC2.
+
+
+
+AWS Shared Responsibility Model
+
+
+| AWS Manages          | Customer Manages          |
+| -------------------- | ------------------------- |
+| Physical servers     | Operating system          |
+| Networking           | Applications              |
+| Storage hardware     | Security patches          |
+| Hypervisor           | Installed software        |
+| Data centre security | User accounts             |
+| Power & Cooling      | Application configuration |
+
+
+
+Best Practices
+Choose the correct AMI for your workload.
+Select an appropriate instance type to balance cost and performance.
+Use EBS for persistent storage.
+Regularly apply OS patches and updates.
+Deploy production workloads across multiple Availability Zones.
+Use IAM roles instead of embedding credentials in applications.
+Monitor EC2 instances using Amazon CloudWatch.
+
+
+Common Beginner Mistakes
+Selecting an oversized instance and paying more than necessary.
+Forgetting to stop or terminate unused instances.
+Assuming AWS manages the operating system.
+Launching all instances in a single Availability Zone.
+Confusing EBS with Amazon S3 (block storage vs object storage).
+
+Interview Questions
+1. What is Amazon EC2?
+
+Amazon EC2 is AWS's Infrastructure as a Service (IaaS) offering that provides scalable virtual servers (instances) in the cloud.
+
+2. Why is EC2 called an unmanaged service?
+
+Because AWS manages the underlying infrastructure, while the customer is responsible for the operating system, software installation, updates, and application management.
+
+3. What is an AMI?
+
+An Amazon Machine Image (AMI) is a pre-configured template containing an operating system and optional software used to launch EC2 instances.
+
+4. What is an EBS Volume?
+
+Amazon Elastic Block Store (EBS) provides persistent block storage that functions like a virtual hard disk attached to an EC2 instance.
+
+5. Can a running EC2 instance be moved directly to another Availability Zone?
+
+No. A running EC2 instance cannot be directly moved. Typically, you create an AMI or snapshot and launch a new instance in the target Availability Zone.
+
+6. What is a Hypervisor?
+
+A Hypervisor is software that allows multiple virtual machines to run on a single physical server while securely sharing CPU, memory, storage, and networking resources.
+
+
+
+| Term              | Description                                                                |
+| ----------------- | -------------------------------------------------------------------------- |
+| EC2               | Elastic Compute Cloud – AWS virtual server service                         |
+| EC2 Instance      | A virtual machine running in AWS                                           |
+| IaaS              | Infrastructure as a Service                                                |
+| AMI               | Amazon Machine Image used to launch EC2 instances                          |
+| EBS               | Elastic Block Store – persistent block storage for EC2                     |
+| Instance Type     | Hardware configuration of an EC2 instance                                  |
+| Availability Zone | Isolated location within an AWS Region where the instance runs             |
+| Hypervisor        | Software that enables multiple virtual machines to share a physical server |
+
+
+Quick Revision
+Amazon EC2 provides virtual servers in the AWS Cloud.
+EC2 is an Infrastructure as a Service (IaaS) offering.
+AWS manages the infrastructure; the customer manages the operating system and applications.
+EC2 instances require EBS volumes for persistent storage.
+An AMI defines the operating system and initial software for an instance.
+Instance types determine CPU, memory, networking, and cost.
+Each EC2 instance is launched in a single Availability Zone.
+A Hypervisor allows multiple isolated virtual machines to share one physical host efficiently.

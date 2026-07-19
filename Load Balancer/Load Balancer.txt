@@ -1,0 +1,355 @@
+What is a Target Group?
+
+A Target Group is a logical group of backend resources that receive traffic from a Load Balancer.
+
+The Load Balancer sends incoming requests to the healthy targets in the Target Group.
+
+
+Target Types
+
+A Target Group can contain:
+
+EC2 Instances
+IP Addresses
+Lambda Functions
+Application Load Balancers (for specific use cases)
+
+
+Architecture
+
+Client
+   │
+   ▼
+Load Balancer
+   │
+   ▼
+Target Group
+   │
+ ┌────┬────┬────┐
+ ▼    ▼    ▼
+EC2  EC2  EC2
+
+
+Why Target Groups?
+
+Instead of sending traffic directly to EC2 instances, the Load Balancer sends traffic to a Target Group.
+
+Benefits:
+
+Health checks
+Easy scaling
+Add/remove servers without changing the Load Balancer
+High availability
+
+
+Components of a Target Group
+Target Type
+Protocol (HTTP, HTTPS, TCP, UDP)
+Port
+Registered Targets
+Health Check Configuration
+
+
+Registered Targets
+
+These are the backend resources that receive traffic.
+
+Example:
+
+Target Group
+
+↓
+
+EC2-1
+
+EC2-2
+
+EC2-3
+
+
+Health Checks
+
+The Load Balancer continuously checks whether targets are healthy.
+
+If an instance fails:
+
+Healthy
+
+↓
+
+Receives Traffic
+
+Unhealthy
+
+↓
+
+Traffic Stopped
+
+
+Only healthy instances receive requests.
+
+
+Registering Targets
+
+Example:
+
+Create Target Group
+
+↓
+
+Register EC2 Instances
+
+↓
+
+Health Check
+
+↓
+
+Attach to Load Balancer
+
+
+Load Balancer → Target Group
+
+Client
+
+↓
+
+Application Load Balancer
+
+↓
+
+Target Group
+
+↓
+
+Healthy EC2 Instances
+
+
+Multiple Target Groups
+
+One Load Balancer can use multiple Target Groups.
+
+Example:
+
+Load Balancer
+
+├── Target Group A
+
+│      ├── EC2-1
+
+│      └── EC2-2
+
+└── Target Group B
+
+       ├── EC2-3
+
+       └── EC2-4
+
+Useful for hosting multiple applications behind one Load Balancer.
+
+
+What is a Network Load Balancer (NLB)?
+
+A Network Load Balancer (NLB) distributes traffic at Layer 4 (Transport Layer) using:
+
+TCP
+UDP
+TLS
+
+It is designed for very high performance and low latency.
+
+
+NLB Architecture
+
+Client
+
+↓
+
+Network Load Balancer
+
+↓
+
+Target Group
+
+↓
+
+EC2 Instances
+
+
+Features of NLB
+Layer 4 Load Balancer
+Supports TCP, UDP, TLS
+Very high performance
+Handles millions of requests
+Low latency
+Static IP support
+Preserves client IP
+Multi-AZ support
+
+
+NLB Example (Based on Your Diagram)
+
+               Network Load Balancer
+            ┌──────────────────────┐
+            │        NLB           │
+            └─────────┬────────────┘
+                      │
+        ┌─────────────┴─────────────┐
+        │                           │
+        ▼                           ▼
+   Availability Zone 1        Availability Zone 2
+        │                           │
+   ┌─────────────┐             ┌─────────────┐
+   │ Instance 1  │             │ Instance 4  │
+   │ Instance 2  │             │ Instance 5  │
+   │ Instance 3  │             │ Instance 6  │
+   └─────────────┘             └─────────────┘
+
+If one Availability Zone fails, NLB automatically routes traffic to healthy instances in the other Availability Zone.
+
+Availability Zone Failure
+
+Example:
+
+AZ-1
+
+✓ Healthy
+
+↓
+
+Traffic Sent
+
+AZ-2
+
+✗ Failed
+
+↓
+
+No Traffic
+
+The NLB only routes requests to healthy targets.
+
+
+NLB Health Check
+
+NLB
+
+↓
+
+Health Check
+
+↓
+
+Healthy Instance
+
+↓
+
+Forward Request
+
+If unhealthy:
+
+NLB
+
+↓
+
+Health Check Failed
+
+↓
+
+Remove From Rotation
+
+
+NLB vs ALB
+
+| Network Load Balancer          | Application Load Balancer            |
+| ------------------------------ | ------------------------------------ |
+| Layer 4                        | Layer 7                              |
+| TCP, UDP, TLS                  | HTTP, HTTPS                          |
+| Extremely fast                 | Content-aware routing                |
+| Static IP                      | No static IP (by default)            |
+| Preserves client IP            | Supports path and host-based routing |
+| Best for high-performance apps | Best for web applications            |
+
+
+Load Balancer + Target Group Flow
+
+Client
+
+↓
+
+Load Balancer
+
+↓
+
+Target Group
+
+↓
+
+Health Check
+
+↓
+
+Healthy EC2
+
+↓
+
+Response
+
+
+Real-Time Example
+
+Suppose you have:
+
+6 EC2 instances
+2 Availability Zones
+
+Traffic flow:
+
+Users
+
+↓
+
+Network Load Balancer
+
+↓
+
+Target Group
+
+↓
+
+EC2-1
+
+EC2-2
+
+EC2-3
+
+EC2-4
+
+EC2-5
+
+EC2-6
+
+
+If EC2-2 becomes unhealthy:
+
+Users
+
+↓
+
+NLB
+
+↓
+
+EC2-1 ✓
+
+EC2-2 ✗
+
+EC2-3 ✓
+
+EC2-4 ✓
+
+EC2-5 ✓
+
+EC2-6 ✓
+
+Traffic automatically bypasses EC2-2.

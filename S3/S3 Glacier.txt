@@ -1,0 +1,287 @@
+Introduction
+
+As organizations generate enormous amounts of data every day, not all of it needs to be accessed frequently.
+
+Examples include:
+
+Old financial records
+Medical reports
+CCTV footage
+Employee records
+Audit logs
+Backup files
+Legal documents
+Historical reports
+
+Keeping all this data in high-performance storage becomes expensive.
+
+Amazon S3 Glacier provides a cost-effective solution for storing such data.
+
+What is Amazon S3 Glacier?
+
+Amazon S3 Glacier is a secure, durable, and low-cost archival storage service offered by AWS.
+
+It is designed for data that:
+
+Is accessed very rarely.
+Must be retained for months or years.
+Needs to remain highly durable.
+Must be retrievable when required.
+
+Unlike Amazon S3 Standard, Glacier prioritizes lower storage cost over immediate access.
+
+Official Definition
+
+Amazon S3 Glacier is an archival storage class within Amazon S3 that provides secure, durable, and extremely low-cost storage for long-term data retention and backup.
+
+Why Do We Need Glacier?
+
+Consider a company that stores customer invoices for seven years to comply with legal regulations.
+
+Employees rarely access invoices older than one year.
+
+Keeping all invoices in S3 Standard would increase storage costs.
+
+Instead:
+
+Recent invoices remain in S3 Standard.
+Older invoices are moved automatically to Glacier.
+
+This significantly reduces storage expenses.
+
+Real-World Example
+
+A hospital stores:
+
+Patient scans
+X-ray images
+MRI reports
+Medical history
+
+Current records are stored in Amazon S3 Standard.
+
+Records older than five years are automatically moved to Amazon S3 Glacier because they are rarely accessed but must be retained.
+
+Difference Between Amazon S3 and Glacier
+Amazon S3 Standard		Amazon S3 Glacier
+Frequently accessed data	Rarely accessed data
+Fast retrieval			Slower retrieval options
+Higher storage cost		Lower storage cost
+Active workloads		Long-term archives
+Low retrieval delay		Retrieval may take minutes or hours depending on the retrieval option
+
+Key Characteristics
+Low-Cost Storage
+
+Glacier offers much lower storage costs than S3 Standard, making it suitable for archival data.
+
+High Durability
+
+Like other S3 storage classes, Glacier is designed for extremely high durability. AWS stores multiple copies of data across its infrastructure to minimize the risk of data loss.
+
+Secure Storage
+
+Glacier supports:
+
+Encryption at rest
+Encryption in transit
+IAM policies
+Bucket policies
+AWS Key Management Service (KMS)
+
+These features help protect archived data.
+
+Long-Term Retention
+
+Organizations can retain archived data for years to satisfy:
+
+Government regulations
+Financial compliance
+Healthcare requirements
+Corporate retention policies
+Glacier Storage Classes
+
+AWS provides multiple archival storage options.
+
+1. S3 Glacier Instant Retrieval
+
+Suitable for:
+
+Data rarely accessed
+Millisecond retrieval when needed
+
+Examples:
+
+Archived medical images
+Long-term project files
+
+2. S3 Glacier Flexible Retrieval
+
+Formerly known as Amazon Glacier.
+
+Supports multiple retrieval speeds.
+
+Suitable for:
+
+Backups
+Disaster recovery
+Archived documents
+
+3. S3 Glacier Deep Archive
+
+Lowest-cost storage option.
+
+Designed for:
+
+Data retained for many years
+Compliance archives
+Historical records
+
+Retrieval times are longer compared to other storage classes.
+
+Retrieval Options
+
+Depending on the selected Glacier storage class, retrieval can vary from:
+
+Immediate (Instant Retrieval)
+Minutes
+Several hours
+
+Organizations choose the retrieval option based on how quickly archived data is needed.
+
+Lifecycle Policies
+
+One of the most useful Glacier features is Lifecycle Management.
+
+Lifecycle policies automatically move objects between storage classes based on age.
+
+Example
+
+Day 0–30:
+
+S3 Standard
+
+Day 31–90:
+
+S3 Standard-IA
+
+After 90 days:
+
+S3 Glacier Flexible Retrieval
+
+After several years:
+
+S3 Glacier Deep Archive
+
+This automation helps optimize storage costs without manual intervention.
+
+Common Use Cases
+
+Amazon S3 Glacier is commonly used for:
+
+Long-term backups
+Disaster recovery
+Financial records
+Tax documents
+Legal documents
+Medical archives
+Research data
+Media archives
+Historical records
+Compliance storage
+
+Benefits of Glacier
+Very low storage cost
+Highly durable
+Secure
+Automatic lifecycle integration
+Multiple retrieval options
+Ideal for compliance and archival requirements
+Reduces overall storage expenditure
+
+Limitations
+Retrieval is slower than S3 Standard (except Instant Retrieval).
+Retrieval requests may incur additional charges.
+Not intended for frequently accessed applications.
+Choosing the wrong storage class may increase retrieval costs.
+
+Best Practices
+Store frequently accessed data in S3 Standard.
+Use Glacier only for rarely accessed data.
+Configure lifecycle rules to automate transitions.
+Enable encryption for sensitive archives.
+Review retrieval requirements before selecting a Glacier storage class.
+Monitor storage and retrieval costs through AWS Cost Explorer.
+
+Common Beginner Mistakes
+Storing active application data in Glacier.
+Expecting immediate access from all Glacier storage classes.
+Forgetting that retrieval may incur costs.
+Not using lifecycle policies to automate transitions.
+Selecting Deep Archive for data that is needed regularly.
+
+Real-World Scenario
+
+An e-commerce company keeps order data in S3 Standard for one year because customer support may need frequent access.
+
+After one year, a lifecycle rule automatically moves the data to Glacier Flexible Retrieval.
+
+After seven years, the data is transitioned to Glacier Deep Archive to minimize long-term storage costs while satisfying legal retention requirements.
+
+Interview Questions
+
+1. What is Amazon S3 Glacier?
+
+Amazon S3 Glacier is a low-cost archival storage service within Amazon S3 designed for long-term retention of infrequently accessed data.
+
+2. Why should organizations use Glacier?
+
+To reduce storage costs for data that must be retained but is rarely accessed.
+
+3. What is the difference between Amazon S3 Standard and Glacier?
+
+S3 Standard is designed for frequently accessed data with immediate availability, whereas Glacier is intended for archival data with lower storage costs and potentially slower retrieval.
+
+4. Name the Glacier storage classes.
+S3 Glacier Instant Retrieval
+S3 Glacier Flexible Retrieval
+S3 Glacier Deep Archive
+
+5. What is a Lifecycle Policy?
+
+A rule that automatically transitions objects between S3 storage classes based on criteria such as object age, helping optimize storage costs.
+
+6. Give three real-world use cases for Glacier.
+Financial record retention
+Disaster recovery backups
+Medical and legal archives
+
+7. Is Glacier secure?
+
+Yes. Glacier supports encryption, IAM policies, bucket policies, AWS KMS integration, and inherits the durability and security features of Amazon S3.
+
+Cloud Practitioner Exam Tips
+Glacier is intended for archival storage, not active workloads.
+It is significantly less expensive than S3 Standard for long-term storage.
+Use Lifecycle Policies to automate movement of data to Glacier.
+Choose the appropriate Glacier storage class based on retrieval speed and cost requirements.
+Remember that lower storage costs may come with longer retrieval times.
+
+Key Terms
+Term				Description
+Amazon S3 Glacier		Low-cost archival storage service within Amazon S3
+				Archive	Data retained for long periods and accessed infrequently
+Lifecycle Policy		Automated rule for transitioning objects between storage classes
+Retrieval			The process of restoring or accessing archived data
+S3 Glacier Instant Retrieval 	Glacier class with millisecond retrieval
+S3 Glacier Flexible Retrieval	Archival class with flexible retrieval times
+S3 Glacier Deep Archive		Lowest-cost storage class for long-term retention
+
+Quick Revision
+Amazon S3 Glacier is designed for long-term archival storage.
+It offers lower storage costs than S3 Standard.
+Archived data is rarely accessed but remains highly durable and secure.
+Glacier includes Instant Retrieval, Flexible Retrieval, and Deep Archive storage classes.
+Lifecycle Policies automate the movement of objects to Glacier based on age or other criteria.
+Glacier is ideal for backups, compliance, legal records, medical archives, and disaster recovery.
+Select the storage class based on the required balance between storage cost and retrieval speed.

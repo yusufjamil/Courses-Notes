@@ -1,0 +1,206 @@
+1. AWS Free Tier
+
+Before creating an account, the instructor explains the AWS Free Tier.
+
+What is the AWS Free Tier?
+
+AWS provides free access to many services for new users.
+
+It allows beginners to:
+
+Learn AWS
+Practice cloud concepts
+Build small applications
+Prepare for certifications
+
+without paying for most basic usage.
+
+Important
+
+The Free Tier does not mean everything in AWS is free.
+
+Only specific services and usage limits are included.
+
+If those limits are exceeded, AWS starts charging automatically.
+
+2. Visit AWS
+
+Go to
+
+https://aws.amazon.com
+
+Click
+
+Create an AWS Account
+
+3. Enter Account Information
+
+Provide:
+
+Email address
+Password
+AWS account name
+
+Example
+
+Email
+abc@gmail.com
+
+Password
+********
+
+AWS Account Name
+MyAWSAccount
+4. Verify Email
+
+AWS sends a verification code.
+
+Enter the code to continue.
+
+Purpose:
+
+Verify ownership of the email address.
+Prevent fake account creation.
+5. Contact Information
+
+Choose whether the account is:
+
+Personal
+Business
+
+Fill in:
+
+Full name
+Address
+Phone number
+Country
+Postal code
+6. Payment Information
+
+AWS requests a credit card or debit card.
+
+Why?
+
+Even when using the Free Tier:
+
+AWS needs a payment method.
+Charges may apply if Free Tier limits are exceeded.
+AWS may perform a small temporary verification charge.
+7. Phone Verification
+
+AWS verifies your identity.
+
+Process:
+
+Enter phone number.
+Receive OTP or automated call.
+Enter verification code.
+8. Choose a Support Plan
+
+AWS provides multiple support plans.
+
+The instructor selects the Basic Support Plan because it is free.
+
+Support plans include:
+
+Basic (Free)
+Developer
+Business
+Enterprise
+
+For beginners, Basic Support is sufficient.
+
+9. Account Creation
+
+After verification:
+
+AWS creates the account.
+
+You can then sign in to the AWS Management Console.
+
+10. Logging into AWS
+
+Login using:
+
+Root user email
+Password
+
+The first login is performed as the Root User.
+
+Root User
+
+The root user has complete administrative access.
+
+It can:
+
+Delete services
+Create services
+Change billing
+Modify IAM
+Close the AWS account
+
+Because of its unrestricted permissions, it should be used sparingly.
+
+Best Practice
+
+After the first login:
+
+Create an IAM User for everyday work instead of using the root account.
+
+Benefits:
+
+Better security
+Limited permissions
+Easier management
+Follows AWS security best practices
+Lesson Summary (from the instructor's recap)
+
+The instructor emphasizes:
+
+You can still be billed even when using the Free Tier.
+Only certain AWS services qualify for the Free Tier.
+Free Tier usage has limits.
+The initial sign-in is done using the root user's email address.
+
+These are important concepts to remember before beginning hands-on AWS work.
+
+Important Interview Questions
+What is the AWS Free Tier?
+
+A program that provides limited free access to selected AWS services for new AWS customers, subject to usage limits.
+
+Is AWS completely free?
+
+No. Only eligible services and specified usage limits are free. Exceeding those limits or using non-eligible services results in charges.
+
+Why does AWS ask for a credit card?
+
+To verify the account and bill for any usage beyond the Free Tier or for paid services.
+
+What is the Root User?
+
+The account created during AWS registration that has full administrative access to all AWS resources and billing.
+
+Why should you avoid using the Root User daily?
+
+Because it has unrestricted permissions. AWS recommends creating IAM users for routine administration to reduce security risks.
+
+Which support plan should beginners choose?
+
+The Basic Support Plan, as it is free and adequate for learning.
+
+Best Practices
+Enable Multi-Factor Authentication (MFA) on the root account.
+Use the root account only for account-level tasks.
+Create an IAM administrator user for everyday management.
+Monitor the AWS Billing Dashboard regularly.
+Set up billing alerts to avoid unexpected charges.
+Stay within Free Tier limits while learning.
+Quick Revision
+AWS account creation requires an email address and password.
+Verify your email and phone number during registration.
+A payment method is required even for the Free Tier.
+Select the Basic Support Plan if you are learning AWS.
+Log in initially as the Root User.
+Create an IAM user after the first login.
+The Free Tier is limited—using resources beyond the limits can incur charges.

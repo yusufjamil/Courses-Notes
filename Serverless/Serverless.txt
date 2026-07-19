@@ -1,0 +1,383 @@
+What is Serverless?
+
+Serverless is a cloud computing model where AWS manages the underlying servers, operating systems, scaling, and infrastructure. Developers only focus on writing and deploying code.
+
+Note: "Serverless" does not mean there are no servers. It means you don't manage the servers—AWS does.
+
+
+Serverless Diagram
+
+                User Request
+                      │
+                      ▼
+               AWS Service
+                      │
+      AWS Manages Infrastructure
+     (Servers, OS, Scaling, Patches)
+                      │
+                      ▼
+              Your Application
+
+
+Characteristics of Serverless
+No server management
+Automatic scaling
+High availability
+Fault tolerance
+Pay only for usage
+Stateless execution
+Faster deployment
+
+AWS Serverless Services
+AWS Lambda
+Amazon DynamoDB
+Amazon S3
+Amazon API Gateway
+AWS Step Functions
+Amazon EventBridge
+Amazon SNS
+Amazon SQS
+
+
+
+What is AWS Lambda?
+
+AWS Lambda is a serverless compute service that lets you run code without provisioning or managing servers.
+
+AWS automatically:
+
+Provisions servers
+Scales applications
+Monitors execution
+Handles availability
+Manages infrastructure
+
+You only upload your code.
+
+
+Lambda Workflow
+
+Event
+   │
+   ▼
+AWS Lambda
+   │
+Runs Function
+   │
+Returns Response
+
+
+How Lambda Works
+
+ API Gateway
+      │
+      ▼
+ AWS Lambda
+      │
+ ┌────┼────┐
+ ▼    ▼    ▼
+S3  DynamoDB  SNS
+      │
+      ▼
+  Return Response
+
+
+Lambda Execution Flow
+
+User Request
+
+↓
+
+Event Trigger
+
+↓
+
+Lambda Function Starts
+
+↓
+
+Execute Code
+
+↓
+
+Access AWS Resources (Optional)
+
+↓
+
+Return Response
+
+↓
+
+Execution Ends
+
+
+
+Lambda Event Sources
+
+Lambda can be triggered by many AWS services.
+
+Examples:
+
+API Gateway
+Amazon S3
+DynamoDB
+CloudWatch Events
+EventBridge
+SNS
+SQS
+Kinesis
+IoT Core
+Cognito
+
+
+
+Real-Time Examples
+Example 1: Image Processing
+
+
+User uploads image
+
+↓
+
+Amazon S3
+
+↓
+
+Triggers Lambda
+
+↓
+
+Resize Image
+
+↓
+
+Save back to S3
+
+
+Example 2: File Processing
+
+CSV uploaded
+
+↓
+
+S3 Event
+
+↓
+
+Lambda Reads File
+
+↓
+
+Stores Data in DynamoDB
+
+
+Example 3: API Backend
+
+
+Client
+
+↓
+
+API Gateway
+
+↓
+
+Lambda
+
+↓
+
+DynamoDB
+
+↓
+
+Response
+
+
+
+Lambda Runtime
+
+AWS supports multiple programming languages.
+
+Python
+Java
+Node.js
+C#
+Go
+Ruby
+Custom Runtime
+
+
+Lambda Components
+Function
+
+The code you write.
+
+Example:
+
+def lambda_handler(event, context):
+    return {
+        "statusCode":200,
+        "body":"Hello World"
+    }
+
+Event
+
+The input sent to Lambda.
+
+Example
+
+
+{
+   "name":"Yousuf"
+}
+
+
+Context
+
+Provides runtime information such as:
+
+Function name
+Remaining execution time
+Request ID
+Memory allocated
+
+
+Lambda Features
+Serverless
+Automatic Scaling
+High Availability
+Fault Tolerant
+Event Driven
+Supports Multiple Languages
+Built-in Monitoring (CloudWatch)
+Secure with IAM
+
+
+
+Benefits of Lambda
+No server management
+Automatic scaling
+Pay only for execution time
+Fast deployment
+Highly available
+Supports microservices
+Integrates with many AWS services
+
+
+
+Lambda Pricing
+
+You pay only for:
+
+Number of requests
+Execution duration (milliseconds)
+Memory allocated
+
+No charges when the function is idle.
+
+
+Stateless Nature
+
+Each Lambda execution is independent.
+
+Example
+
+Request 1
+
+↓
+
+Lambda
+
+↓
+
+Ends
+
+Request 2
+
+↓
+
+New Execution
+
+Data is not stored between executions unless you use services like DynamoDB or S3.
+
+
+Scaling in Lambda
+
+Lambda automatically creates multiple instances of the function.
+
+
+100 Requests
+
+↓
+
+100 Lambda Executions
+
+No manual scaling required.
+
+
+Monitoring Lambda
+
+AWS CloudWatch provides:
+
+Logs
+Metrics
+Errors
+Execution duration
+Invocation count
+
+
+Security
+
+Lambda permissions are managed using IAM Roles.
+
+The Lambda function assumes an IAM role to access other AWS services securely.
+
+Example:
+
+Lambda
+
+↓
+
+IAM Role
+
+↓
+
+Access S3
+
+
+Common Lambda Use Cases
+REST APIs
+Image processing
+File processing
+Scheduled jobs
+ETL pipelines
+Data validation
+Notifications
+IoT processing
+Chatbots
+Automation tasks
+
+
+Lambda vs EC2
+
+| AWS Lambda          | Amazon EC2                      |
+| ------------------- | ------------------------------- |
+| Serverless          | Virtual Server                  |
+| AWS manages servers | User manages servers            |
+| Automatic scaling   | Manual or Auto Scaling          |
+| Pay per execution   | Pay while instance runs         |
+| Event-driven        | Always running (unless stopped) |
+| No OS management    | OS management required          |
+
+
+Serverless vs Traditional Servers
+
+
+| Serverless           | Traditional Server     |
+| -------------------- | ---------------------- |
+| No server management | User manages servers   |
+| Automatic scaling    | Manual scaling         |
+| Pay per execution    | Pay for running server |
+| Faster deployment    | Longer setup           |
+| Event-driven         | Server-based           |
+

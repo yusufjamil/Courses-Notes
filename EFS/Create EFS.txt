@@ -1,0 +1,229 @@
+Click
+
+Create File System
+
+AWS opens
+
+General Settings
+
+File System Type
+
+Two options
+
+Regional
+
+Stores data across multiple Availability Zones.
+
+Advantages
+
+High Availability
+High Durability
+Production Recommended
+
+One Zone
+
+Stores data in only one AZ.
+
+Advantages
+
+Lower Cost
+
+Disadvantages
+
+Less available
+
+Used mostly for
+
+Dev
+Test
+
+Automatic Backup
+
+Enabled
+
+AWS Backup automatically creates backups.
+
+Lifecycle Management
+
+Automatically moves files to cheaper storage.
+
+Three options
+
+Transition to IA
+
+Default
+
+30 days
+
+Meaning
+
+If file is not accessed for 30 days
+
+↓
+
+Move to
+
+Infrequent Access
+
+Lower storage cost.
+
+Transition to Archive
+
+Default
+
+90 days
+
+After 90 days
+
+↓
+
+Move to Archive.
+
+Very cheap storage.
+
+Transition to Standard
+
+Default
+
+On first access
+
+When someone accesses archived data
+
+↓
+
+Automatically returns to Standard storage.
+
+Encryption
+
+Enabled
+
+Uses AWS KMS.
+
+Encrypts
+
+Files
+Metadata
+
+at rest.
+
+Throughput Mode
+
+Two options
+
+Bursting
+
+Automatically increases throughput based on storage size.
+
+Good for
+
+Small workloads
+General workloads
+
+Enhanced
+
+Better performance
+
+Suitable for
+
+High throughput
+Large workloads
+
+Mount Target
+
+A mount target is a network endpoint through which EC2 instances connect to EFS.
+
+AWS recommends
+
+One mount target
+
+per Availability Zone.
+
+Mount EFS
+
+Mount directory
+
+Example
+
+/mnt/efs/fs1
+
+Verify
+
+df -h
+
+Output
+
+Filesystem
+
+127.0.0.1
+
+Mounted on
+
+/mnt/efs/fs1
+
+Create File
+
+echo "TrainerTests.com" > /mnt/efs/fs1/test.txt
+
+Creates
+
+test.txt
+
+inside EFS.
+
+Become Root
+
+sudo su
+
+Check Folder
+
+ls
+
+Check Mount
+
+df -h
+
+
+Advantages
+Shared Storage
+Elastic
+Multi-AZ
+Durable
+Managed
+Auto Backup
+Auto Scaling
+Encryption
+Highly Available
+
+Disadvantages
+More expensive than EBS
+NFS only
+Cannot attach outside supported environments
+Slightly higher latency than EBS
+
+
+EFS vs EBS vs S3
+
+
+| Feature      | EFS          | EBS                 | S3              |
+| ------------ | ------------ | ------------------- | --------------- |
+| Type         | File Storage | Block Storage       | Object Storage  |
+| Mount        | Multiple EC2 | One EC2 (typically) | API Access      |
+| Protocol     | NFS          | Block Device        | REST API        |
+| Auto Scaling | Yes          | No                  | Yes             |
+| Multi-AZ     | Yes          | No                  | Yes             |
+| Shared       | Yes          | No                  | Yes             |
+| Best For     | Shared Files | OS, Database        | Backups, Images |
+
+
+Real-Time Use Cases
+Shared website content
+Content Management Systems (WordPress, Drupal)
+Machine Learning datasets
+Big Data processing
+Shared home directories
+Media rendering
+CI/CD pipelines
+Jenkins shared workspace
+Docker shared volumes
+Kubernetes persistent storage
+Log aggregation

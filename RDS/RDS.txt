@@ -1,0 +1,184 @@
+What is Amazon RDS?
+
+Amazon RDS (Relational Database Service) is a fully managed relational database service that makes it easy to create, operate, scale, and maintain databases in AWS.
+
+Instead of managing the database server yourself, AWS manages:
+
+Database installation
+Operating System
+Software patching
+Automatic Backups
+Monitoring
+Failure Detection
+Recovery
+Scaling
+
+RDS Architecture
+
+                  Application
+                       │
+                       ▼
+              EC2 / Lambda / ECS
+                       │
+                       ▼
+                Amazon RDS Instance
+                       │
+        ┌──────────────┼──────────────┐
+        │              │              │
+   Storage        Automatic      Monitoring
+                  Backups       CloudWatch
+
+EC2 Database vs RDS
+
+| EC2 Database         | Amazon RDS             |
+| -------------------- | ---------------------- |
+| User installs DB     | AWS installs DB        |
+| User patches OS      | AWS patches OS         |
+| User manages backups | AWS automatic backups  |
+| User monitors DB     | CloudWatch integration |
+| SSH Access           | No SSH Access          |
+| More administration  | Fully Managed          |
+
+
+Supported Database Engines
+
+Amazon RDS supports:
+
+MySQL
+PostgreSQL
+MariaDB
+Oracle
+Microsoft SQL Server
+Amazon Aurora
+
+RDS Automatic Backups
+
+Automatic backups are enabled by AWS.
+
+Features
+
+Daily backup
+Point-in-time recovery
+Retention period configurable
+Default retention: 7 days
+Can retain backups after deleting the DB instance (if configured)
+
+RDS Snapshots
+
+Snapshots are
+
+Manual backups
+Created anytime
+Full database backup
+Retained until manually deleted
+
+Unlike automated backups, snapshots do not expire automatically.
+
+Automated Backup vs Snapshot
+
+| Automated Backup         | Snapshot                    |
+| ------------------------ | --------------------------- |
+| Automatic                | Manual                      |
+| Default 7 days retention | Kept until deleted          |
+| Point-in-time recovery   | Restore to snapshot state   |
+| Deleted after retention  | Never deleted automatically |
+
+Multi-AZ Deployment
+
+Purpose
+
+High Availability
+
+Architecture
+
+Client
+   │
+   ▼
+Primary RDS (AZ-1)
+        │
+Synchronous Replication
+        │
+Standby RDS (AZ-2)
+
+Working
+Primary database handles reads and writes.
+Standby database stays synchronized using synchronous replication.
+If the primary instance fails, AWS automatically promotes the standby instance.
+DNS is updated automatically, minimizing downtime.
+
+Read Replica
+
+Purpose
+
+Improve Read Performance
+
+Architecture
+
+              Writes
+                 │
+                 ▼
+        Primary RDS Instance
+                 │
+      Asynchronous Replication
+                 │
+                 ▼
+           Read Replica
+                 │
+             Read Queries
+
+Working
+All write operations go to the primary database.
+Read replicas receive updates through asynchronous replication.
+Applications can send read-only queries to replicas, reducing the load on the primary database.
+
+Multi-AZ vs Read Replica
+
+| Multi-AZ                   | Read Replica             |
+| -------------------------- | ------------------------ |
+| High Availability          | Read Scaling             |
+| Synchronous Replication    | Asynchronous Replication |
+| Automatic Failover         | No Automatic Failover    |
+| Disaster Recovery          | Performance Improvement  |
+| Standby not used for reads | Replica handles reads    |
+
+
+Database Migration Service (DMS)
+
+Purpose
+
+Migrate databases to AWS with minimal downtime.
+
+Features
+
+Migrate on-premises databases to AWS.
+Continuous data replication during migration.
+Keeps source and target databases synchronized.
+Supports heterogeneous migrations (e.g., Oracle to Aurora).
+
+Example
+
+Oracle
+      │
+      ▼
+AWS Database Migration Service
+      │
+      ▼
+Amazon Aurora
+
+High Availability Features of RDS
+Multi-AZ deployment
+Automatic backups
+Snapshots
+Automatic failover
+Monitoring using CloudWatch
+Storage auto scaling (supported engines/configurations)
+Encryption at rest
+Encryption in transit
+
+Security Features
+IAM authentication (supported engines)
+VPC Security Groups
+Encryption using AWS KMS
+SSL/TLS connections
+Private Subnets
+

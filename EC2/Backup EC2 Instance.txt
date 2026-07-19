@@ -1,0 +1,153 @@
+What is an EC2 Snapshot?
+
+An EC2 Snapshot is a point-in-time backup of an Amazon EBS (Elastic Block Store) volume.
+
+Think of it as taking a photo of your disk at a specific moment.
+
+EC2 Instance
+      │
+      ▼
+Root EBS Volume
+      │
+      ▼
+Create Snapshot
+      │
+      ▼
+Stored in Amazon S3 (managed by AWS)
+
+Note: Snapshots are stored in Amazon S3 behind the scenes, but you manage them through the EC2/EBS Snapshot interface rather than directly through S3.
+
+
+Why Create Snapshots?
+
+Snapshots are useful for:
+
+Backing up an EC2 instance before making changes
+Recovering data after accidental deletion
+Cloning servers
+Creating AMIs (Amazon Machine Images)
+Disaster recovery
+Migrating data to another Availability Zone or Region
+
+Prerequisites
+
+Before creating a snapshot:
+
+EC2 instance should be running or stopped.
+The instance must use an EBS-backed root volume (Amazon Linux instances do by default).
+
+Step 1: Open EC2 Instances
+Go to the EC2 Dashboard.
+Click Instances.
+Select the instance you want to back up.
+
+Example:
+
+My Web Server
+
+Step 2: View Block Devices
+
+After selecting the instance, scroll down to the Storage section (or Block devices, depending on the console view).
+
+You'll see information such as:
+
+Volume ID (for example, vol-xxxxxxxx)
+Device Name (such as /dev/xvda)
+Volume Size
+Attachment Status
+
+The Volume ID identifies the EBS volume attached to the instance.
+
+Step 3: Open the Volume
+
+Click the Volume ID link.
+
+This opens the Elastic Block Store → Volumes page, where you can manage the disk.
+
+Step 4: Create a Snapshot
+
+With the volume selected:
+
+Choose Actions.
+Select Create Snapshot.
+
+Provide:
+
+| Field         | Example                         |
+| ------------- | ------------------------------- |
+| Snapshot Name | `MyWebServer-Backup`            |
+| Description   | `Backup before software update` |
+
+
+Then click Create Snapshot.
+
+What Happens?
+
+AWS:
+
+Reads the EBS volume.
+Creates a point-in-time backup.
+Stores the snapshot in AWS-managed S3 storage.
+Assigns a unique Snapshot ID (for example, snap-xxxxxxxx).
+
+Snapshot Characteristics
+Incremental after the first snapshot (only changed blocks are stored).
+Stored redundantly for durability.
+Can be used to create new EBS volumes.
+Can be copied to another AWS Region.
+Can be shared with other AWS accounts (if permitted).
+
+Uses of Snapshots
+Restore a deleted volume
+Roll back after a failed software update
+Build new EC2 instances from existing data
+Long-term backups
+Disaster recovery
+
+Verify the Backup
+
+To verify the snapshot:
+
+In the EC2 console, under Elastic Block Store, click Snapshots.
+Locate the snapshot you created.
+Check its State:
+Pending – AWS is creating the snapshot.
+Completed – The backup is ready for use.
+
+Restore from a Snapshot
+
+You don't attach a snapshot directly to an EC2 instance.
+
+Instead:
+
+Open Snapshots.
+Select the snapshot.
+Choose Actions → Create Volume.
+Create a new EBS volume.
+Attach the new volume to an EC2 instance.
+
+Important Interview Questions
+
+1. What is an EBS Snapshot?
+
+An EBS Snapshot is a point-in-time backup of an Amazon EBS volume. It is stored in AWS-managed S3 storage and can be used to restore data or create new volumes.
+
+2. Are snapshots incremental?
+
+Yes. The first snapshot is a full backup. Subsequent snapshots store only the blocks that have changed since the previous snapshot.
+
+3. Can a snapshot be attached directly to an EC2 instance?
+
+No. You must first create a new EBS volume from the snapshot and then attach that volume to an EC2 instance.
+
+4. What is the difference between an AMI and a Snapshot?
+
+| Snapshot                      | AMI                                   |
+| ----------------------------- | ------------------------------------- |
+| Backup of a single EBS volume | Template used to launch EC2 instances |
+| Used to restore storage       | Used to create new instances          |
+| Creates volumes               | Creates complete EC2 instances        |
+
+5. Do snapshots continue to incur charges?
+
+Yes. Snapshot storage is billed based on the amount of data stored. Deleting snapshots you no longer need helps reduce storage costs.
