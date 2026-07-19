@@ -13,32 +13,8 @@ ZIP archives
 Application files
 Log files
 Backup files
-Step 1 – Open Amazon S3
 
-After logging in to the AWS Management Console:
-
-Use the Search bar.
-Search for S3.
-Open the Amazon S3 service.
-
-The S3 dashboard displays:
-
-Existing buckets
-Storage overview
-Access points
-Recent activity
-
-If this is a new account, no buckets will be listed.
-
-Step 2 – Create Bucket
-
-Click the Create bucket button.
-
-AWS opens the bucket creation wizard.
-
-This wizard guides you through all required configuration options before the bucket is created.
-
-Step 3 – Choose AWS Region
+Choose AWS Region
 
 Every bucket is created in an AWS Region.
 
@@ -48,6 +24,7 @@ Asia Pacific (Mumbai)
 Asia Pacific (Singapore)
 US East (N. Virginia)
 Europe (Frankfurt)
+
 Why the Region Matters
 
 The selected Region determines:
@@ -59,7 +36,7 @@ Potential data transfer costs.
 
 Best Practice: Choose the Region closest to your users or where your application runs.
 
-Step 4 – Bucket Name
+Bucket Name
 
 The bucket name must be entered during creation.
 
@@ -71,6 +48,8 @@ Hyphens (-) are allowed.
 No spaces.
 No uppercase letters.
 No special characters other than hyphens (and periods in some cases, though they are generally avoided).
+
+
 Examples
 
 Valid
@@ -85,13 +64,7 @@ MyBucket
 AWS Bucket
 Backup_Files
 
-Step 5 – Object Ownership
-
-The wizard includes an Object Ownership section.
-
-This setting determines who owns newly uploaded objects.
-
-The commonly recommended option is Bucket owner enforced, which:
+Object Ownership
 
 Makes the bucket owner the owner of all uploaded objects.
 Disables Access Control Lists (ACLs).
@@ -99,11 +72,7 @@ Simplifies permission management.
 
 For most new projects and AWS best practices, this is the preferred configuration.
 
-Step 6 – Block Public Access
-
-The video shows the Block Public Access configuration.
-
-This is one of the most important security settings in Amazon S3.
+Block Public Access
 
 Purpose
 
@@ -119,9 +88,7 @@ For most applications, these settings should remain enabled.
 
 Only disable them when you intentionally need a public bucket (for example, certain static website hosting scenarios).
 
-Step 7 – Bucket Versioning
-
-The wizard also includes Bucket Versioning.
+Bucket Versioning
 
 What is Versioning?
 
@@ -151,7 +118,7 @@ Simplifies recovery of previous file versions.
 
 For production environments, versioning is commonly enabled.
 
-Step 8 – Review Configuration
+Review Configuration
 
 Before creating the bucket, review:
 
@@ -160,16 +127,6 @@ Selected Region
 Object Ownership
 Public access settings
 Versioning
-
-If everything is correct, proceed.
-
-Step 9 – Create Bucket
-
-Click Create bucket.
-
-If all validation checks pass, AWS creates the bucket and it appears in the S3 bucket list.
-
-The bucket is now ready to store objects.
 
 Bucket Lifecycle After Creation
 
@@ -211,52 +168,6 @@ Block Public Access: Enabled
 
 If an employee accidentally uploads an incorrect invoice over an existing one, versioning allows the previous version to be restored.
 
-Interview Questions
-
-1. What is an S3 bucket?
-
-An S3 bucket is a logical container used to store objects in Amazon S3.
-
-2. Why must bucket names be globally unique?
-
-Because bucket names form part of the bucket's unique namespace within Amazon S3.
-
-3. Why should Block Public Access usually remain enabled?
-
-To prevent accidental public exposure of sensitive data and reduce security risks.
-
-4. What is Object Ownership?
-
-It determines who owns objects uploaded to the bucket. The recommended setting is Bucket owner enforced, which simplifies access management by disabling ACLs.
-
-5. What is Bucket Versioning?
-
-A feature that stores multiple versions of an object, helping recover from accidental deletion or overwriting.
-
-6. Can the AWS Region be changed after creating a bucket?
-
-No. A bucket remains in the Region where it was created. To use another Region, you typically create a new bucket there and migrate the data.
-
-Key Terms
-Term	Description
-Bucket			Logical container for storing objects
-Object			A file stored in Amazon S3
-Region			Geographic location where the bucket resides
-Object Ownership	Controls ownership of uploaded objects
-Block Public Access	Security feature that prevents unintended public access
-Versioning		Maintains multiple versions of the same object
-
-Quick Revision
-Create an S3 bucket from the Amazon S3 console.
-Choose the correct AWS Region before creating the bucket.
-Bucket names must be globally unique and use lowercase letters.
-Use Bucket owner enforced for Object Ownership in most cases.
-Leave Block Public Access enabled unless public access is intentionally required.
-Enable Versioning to protect against accidental overwrites and deletions.
-Review all settings before clicking Create bucket.
-
-
-
 
 What is an Object?
 
@@ -279,50 +190,6 @@ Unlike a traditional file system, Amazon S3 stores data as objects, each contain
 The actual file data
 Metadata
 A unique object key
-Opening an S3 Bucket
-
-Navigate to:
-
-AWS Console → S3 → Buckets
-
-A list of available buckets is displayed.
-
-Click the bucket you created in the previous lesson.
-
-The bucket opens and displays its contents.
-
-If it's a newly created bucket, it will initially be empty.
-
-Uploading Objects
-
-To upload files:
-
-Open the bucket.
-Click Upload.
-Select Add files (or Add folder, if supported).
-Browse your local computer.
-Select one or more files.
-Click Upload.
-
-AWS transfers the selected files to Amazon S3.
-
-Once complete, the objects appear in the bucket.
-
-Upload Process
-Local Computer
-      │
-      ▼
-Select File
-      │
-      ▼
-Upload
-      │
-      ▼
-Amazon S3 Bucket
-      │
-      ▼
-Object Created
-Uploading Multiple Files
 
 Amazon S3 allows uploading:
 
@@ -358,21 +225,6 @@ photo.jpg
 resume.docx
 
 are object keys.
-
-Object Details
-
-Clicking an object displays additional information, such as:
-
-Object name
-File size
-Last modified date
-Storage class
-Object URL
-Owner
-Metadata
-Encryption status
-
-This information helps with management and troubleshooting.
 
 Object URL
 
@@ -415,26 +267,6 @@ S3 Glacier Deep Archive
 
 By default, uploaded objects use S3 Standard unless another class is selected.
 
-Downloading Objects
-
-To download an object:
-
-Open the bucket.
-Select the object.
-Click Download.
-
-The file is downloaded to your local machine.
-
-Deleting Objects
-
-To remove a file:
-
-Select the object.
-Click Delete.
-Confirm the deletion.
-
-The object is removed from the bucket.
-
 If Versioning is enabled, AWS creates a delete marker instead of permanently removing the object immediately.
 
 Creating Folders
@@ -475,6 +307,8 @@ View properties
 Change permissions
 Enable encryption
 Configure lifecycle policies
+
+
 Real-World Example
 
 A software company stores application assets in Amazon S3:
@@ -507,72 +341,10 @@ Use encryption for sensitive files.
 Enable Versioning for important documents.
 Regularly delete unused objects to reduce storage costs.
 Apply least-privilege IAM permissions.
+
 Common Beginner Mistakes
 Uploading files to the wrong bucket.
 Accidentally deleting important objects.
 Assuming object URLs are automatically public.
 Not organizing files with folders/prefixes.
 Ignoring storage class selection for long-term data.
-
-Interview Questions
-1. What is an Object in Amazon S3?
-
-An object is the basic unit of storage in Amazon S3. It consists of the file data, metadata, and a unique object key.
-
-2. What is an Object Key?
-
-The unique identifier (name) of an object within a bucket.
-
-3. Can you upload multiple files to Amazon S3?
-
-Yes. Amazon S3 supports uploading one file, multiple files, and folders (depending on the upload method).
-
-4. Are S3 folders real directories?
-
-No. They are logical prefixes used to organize object keys.
-
-5. What information can you view for an object?
-Name
-Size
-Last modified
-Storage class
-Metadata
-URL
-Encryption
-Permissions
-
-6. Does having an object URL make it public?
-
-No. Access depends on bucket policies, IAM permissions, Block Public Access settings, and other access controls.
-
-7. What happens when Versioning is enabled and an object is deleted?
-
-Amazon S3 adds a delete marker rather than immediately removing the object's previous versions, allowing recovery if needed.
-
-Key Terms
-Term		Description
-Object		A file stored in Amazon S3
-Object Key	Unique identifier for an object within a bucket
-Metadata	Additional information describing an object
-Storage Class	Defines how an object is stored and accessed
-Prefix	Logical grouping that appears as a folder
-Object URL	URL associated with an object (subject to permissions)
-Delete Marker	Marker created when deleting a versioned object
-
-Cloud Practitioner Exam Tips
-Remember that S3 is an object storage service.
-Buckets contain objects, not traditional files and folders.
-Folders shown in the AWS Console are prefixes, not physical directories.
-By default, uploaded objects use the S3 Standard storage class.
-Public access is controlled through IAM, bucket policies, ACLs (if used), and Block Public Access settings.
-Versioning protects against accidental deletion and overwrites.
-
-Quick Revision
-Open the desired bucket from the Amazon S3 console.
-Upload files using the Upload button.
-Every uploaded file becomes an Object.
-Each object has a unique Object Key.
-Objects include metadata and belong to a storage class.
-The console's folders are logical prefixes used for organization.
-Download or delete objects as needed.
-Keep buckets organized, secure, and monitored with appropriate permissions and lifecycle management.
