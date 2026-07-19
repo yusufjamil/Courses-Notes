@@ -64,34 +64,3 @@ Elastic scaling
 Reduced operational costs
 Faster deployment
 Better utilization of infrastructure
-
-6. Key Interview Questions
-
-What is overprovisioning?
-
-Purchasing more infrastructure than is currently needed to prepare for future demand, resulting in idle resources and unnecessary cost.
-
-How does AWS solve overprovisioning?
-
-AWS allows customers to provision resources on demand and pay only for what they use, eliminating the need to maintain excess hardware.
-
-What is the Pay-As-You-Go pricing model?
-
-Customers are billed only for the AWS services and resources they actually consume instead of paying upfront for maximum capacity.
-
-What is elasticity?
-
-The ability to automatically increase or decrease resources based on workload.
-
-What is scalability?
-
-The ability to increase computing resources to handle increased workload.
-
-Quick Revision
-Traditional infrastructure = Buy servers first.
-Overprovisioning = Buy more than needed.
-Underutilization = Idle resources.
-AWS = Rent resources.
-Pay only for usage.
-Scale up during peak demand.
-Scale down when demand decreases.
