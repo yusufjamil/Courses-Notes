@@ -194,6 +194,7 @@ AWS Console
 AWS CLI
 AWS SDK
 REST APIs
+
 Common Use Cases
 
 Amazon S3 is widely used for:
@@ -236,50 +237,3 @@ Enable encryption for sensitive data.
 Organize objects using logical prefixes.
 Monitor storage usage and costs.
 Remove unused objects when appropriate.
-
-
-Interview Questions
-
-1. What is Amazon S3?
-
-Amazon S3 is AWS's object storage service used to store and retrieve any amount of unstructured data from anywhere.
-
-2. What is a Bucket?
-
-A bucket is the top-level storage container in Amazon S3 where objects are stored.
-
-3. What is an Object in Amazon S3?
-
-An object is a file stored in an S3 bucket, along with its metadata and a unique key.
-
-4. Can Amazon S3 store unlimited data?
-
-For practical purposes, yes. Amazon S3 is designed to scale to virtually unlimited amounts of data.
-
-5. What types of files can be stored in Amazon S3?
-
-Images, videos, documents, backups, log files, archives, audio files, application assets, and other unstructured data.
-
-6. Why is Amazon S3 called object storage?
-
-Because it stores data as objects, each consisting of the file, metadata, and a unique key, rather than using a traditional file system or block storage.
-
-Key Terms
-Term	Description
-Amazon S3	AWS object storage service
-Bucket		Top-level container for storing objects
-Object		Individual file stored in S3
-Object Key	Unique identifier for an object within a bucket
-Metadata	Additional information about an object
-Object Storage	Storage model used by Amazon S3
-
-Quick Revision
-Amazon S3 stands for Amazon Simple Storage Service.
-S3 is an object storage service.
-Data is stored in Buckets.
-Individual files are called Objects.
-Objects are identified by Object Keys.
-S3 is highly scalable, durable, available, and secure.
-It is commonly used for backups, static website hosting, media storage, application assets, and disaster recovery.
-
-Follow AWS best practices by securing buckets, enabling encryption when needed, and organizing objects logically.
